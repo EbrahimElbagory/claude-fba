@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Daily review-request job. Install:
+     1. Replace /PATH/TO/claude-fba below with your clone's absolute path
+     2. cp to ~/Library/LaunchAgents/ and run: launchctl load ~/Library/LaunchAgents/com.example.solicit-reviews.plist -->
+<plist version="1.0">
+<dict>
+    <key>Label</key><string>com.example.solicit-reviews</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string><string>-u</string>
+        <string>/PATH/TO/claude-fba/scripts/solicit_reviews.py</string>
+    </array>
+    <key>WorkingDirectory</key><string>/PATH/TO/claude-fba/scripts</string>
+    <key>StartCalendarInterval</key>
+    <dict><key>Hour</key><integer>10</integer><key>Minute</key><integer>0</integer></dict>
+    <key>StandardOutPath</key><string>/PATH/TO/claude-fba/data/solicit_cron.log</string>
+    <key>StandardErrorPath</key><string>/PATH/TO/claude-fba/data/solicit_cron.log</string>
+</dict>
+</plist>

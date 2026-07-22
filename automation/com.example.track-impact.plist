@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Weekly impact-tracker job (Mondays 09:00). Install:
+     1. Replace /PATH/TO/claude-fba below with your clone's absolute path
+     2. cp to ~/Library/LaunchAgents/ and run: launchctl load ~/Library/LaunchAgents/com.example.track-impact.plist -->
+<plist version="1.0">
+<dict>
+    <key>Label</key><string>com.example.track-impact</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string><string>-u</string>
+        <string>/PATH/TO/claude-fba/scripts/track_impact.py</string>
+    </array>
+    <key>WorkingDirectory</key><string>/PATH/TO/claude-fba/scripts</string>
+    <key>StartCalendarInterval</key>
+    <dict><key>Weekday</key><integer>1</integer><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>
+    <key>StandardOutPath</key><string>/PATH/TO/claude-fba/data/track_cron.log</string>
+    <key>StandardErrorPath</key><string>/PATH/TO/claude-fba/data/track_cron.log</string>
+</dict>
+</plist>
