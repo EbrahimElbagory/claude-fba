@@ -53,7 +53,7 @@ nav.links a:hover{color:var(--white)}
 .chip-ver span{color:var(--dim)}
 h1{
   font-family:'Archivo Black',sans-serif; font-weight:400;
-  font-size:clamp(46px,9.2vw,124px); line-height:.94; letter-spacing:-.012em;
+  font-size:clamp(38px,6.6vw,92px); line-height:.98; white-space:nowrap; letter-spacing:-.012em;
   text-transform:uppercase; color:var(--white); margin-bottom:52px;
 }
 h1 .l2{color:var(--orange); display:block}
@@ -177,7 +177,7 @@ footer nav a{color:var(--dim)} footer nav a:hover{color:var(--orange)}
 .rv{opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease}
 .rv.on{opacity:1; transform:none}
 @media (prefers-reduced-motion:reduce){ .rv,.tline,.cur{opacity:1!important; transform:none!important; animation:none!important; transition:none} }
-@media (max-width:720px){ nav.links{display:none} }
+@media (max-width:720px){ nav.links{display:none} h1{white-space:normal} }
 </style>
 </head>
 <body>
@@ -214,7 +214,7 @@ footer nav a{color:var(--dim)} footer nav a:hover{color:var(--orange)}
 
   <div class="wrap">
     <div class="chip-ver"><b>v0.1</b> <span>//</span> LATEST <span>//</span> FREE <span>//</span> OPEN SOURCE <span>//</span> MIT</div>
-    <h1>Your seller<br>ops team <span class="l2">in the terminal.</span></h1>
+    <h1>Your seller ops team<span class="l2">in the terminal.</span></h1>
     <p class="desc">Claude FBA is a free, open-source Amazon seller toolkit for <b>Claude Code</b>:
     5 skills, a zero-dependency SP-API client, and the Helium 10 MCP wired into one
     <b>audit → fix → measure</b> loop. Clone it, connect your store, say <b>"audit my store"</b>.</p>
