@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>claude-fba — Your Amazon seller ops team in the terminal</title>
+<meta name="description" content="Open-source Claude Code skills that audit your Amazon store, automate review requests, patch listings safely, and measure what worked — via SP-API + Helium 10 MCP.">
+<meta property="og:title" content="claude-fba — Your Amazon seller ops team in the terminal">
+<meta property="og:description" content="Audit → fix → measure your Amazon store with Claude Code. 437 review requests sent day one. Open source, MIT.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='14' fill='%23131110'/><text x='18' y='72' font-family='monospace' font-size='58' fill='%23ffb454'>$_</text></svg>">
+<style>
+:root{
+  --bg:#131110; --bg2:#1a1715; --bg3:#211d1a; --line:#332d28;
+  --amber:#ffb454; --amber-dim:#c9924a; --green:#9ece6a; --red:#f7768e;
+  --ink:#e8e0d5; --ink-dim:#9a8f80; --ink-faint:#645b4f;
+  --maxw:1060px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:'IBM Plex Mono',ui-monospace,monospace;
+  font-size:15px; line-height:1.65;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,180,84,.07), transparent),
+    repeating-linear-gradient(0deg, transparent 0 2px, rgba(0,0,0,.12) 2px 4px);
+}
+::selection{background:var(--amber); color:var(--bg)}
+a{color:var(--amber); text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+
+/* top bar */
+.bar{border-bottom:1px solid var(--line); background:rgba(19,17,16,.92); backdrop-filter:blur(6px); position:sticky; top:0; z-index:10}
+.bar .wrap{display:flex; align-items:center; gap:14px; height:52px}
+.dots{display:flex; gap:6px}
+.dots i{width:11px;height:11px;border-radius:50%;background:var(--line)}
+.dots i:first-child{background:var(--red)} .dots i:nth-child(2){background:var(--amber)} .dots i:last-child{background:var(--green)}
+.bar .path{color:var(--ink-faint); font-size:13px; flex:1; overflow:hidden; white-space:nowrap}
+.bar nav{display:flex; gap:18px; font-size:13px}
+.bar nav a{color:var(--ink-dim)} .bar nav a:hover{color:var(--amber)}
+
+/* hero */
+.hero{padding:84px 0 60px; position:relative; overflow:hidden}
+.prompt-line{color:var(--green); font-size:14px; letter-spacing:.04em; margin-bottom:22px}
+.prompt-line::before{content:"~/store $ "; color:var(--ink-faint)}
+h1{
+  font-family:'Fraunces',serif; font-weight:700; font-size:clamp(40px,7vw,76px);
+  line-height:1.02; letter-spacing:-.015em; margin-bottom:26px; max-width:900px;
+}
+h1 em{font-style:italic; color:var(--amber)}
+.sub{color:var(--ink-dim); max-width:640px; font-size:16px; margin-bottom:38px}
+.sub b{color:var(--ink); font-weight:500}
+.install{
+  display:flex; align-items:center; gap:0; max-width:640px;
+  border:1px solid var(--line); background:var(--bg2); border-radius:6px; overflow:hidden;
+}
+.install code{flex:1; padding:15px 18px; font-size:14px; color:var(--green); overflow-x:auto; white-space:nowrap}
+.install code::before{content:"$ "; color:var(--ink-faint)}
+.install button{
+  border:none; border-left:1px solid var(--line); background:var(--bg3); color:var(--amber);
+  font:inherit; font-size:13px; padding:15px 20px; cursor:pointer; letter-spacing:.06em;
+}
+.install button:hover{background:var(--amber); color:var(--bg)}
+.badges{display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; font-size:12.5px; color:var(--ink-faint)}
+.badges span{border:1px solid var(--line); border-radius:99px; padding:3px 12px}
+.badges span b{color:var(--amber-dim); font-weight:500}
+
+/* section headers */
+section{padding:70px 0; border-top:1px solid var(--line)}
+.sh{color:var(--amber); font-size:13px; letter-spacing:.14em; margin-bottom:10px}
+.sh::before{content:"// "}
+h2{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(26px,3.6vw,38px); letter-spacing:-.01em; margin-bottom:14px}
+.lede{color:var(--ink-dim); max-width:660px; margin-bottom:40px}
+
+/* stats */
+.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:8px; overflow:hidden}
+.stat{background:var(--bg2); padding:28px 24px}
+.stat .n{font-family:'Fraunces',serif; font-size:44px; font-weight:700; color:var(--amber); line-height:1; margin-bottom:10px}
+.stat .l{font-size:13px; color:var(--ink-dim)}
+.stat .l b{color:var(--ink); font-weight:500}
+
+/* terminal demo */
+.term{border:1px solid var(--line); border-radius:8px; background:#0e0c0b; margin-top:8px; box-shadow:0 24px 60px -30px rgba(0,0,0,.8)}
+.term-head{display:flex; align-items:center; gap:10px; padding:10px 16px; border-bottom:1px solid var(--line); color:var(--ink-faint); font-size:12.5px}
+.term-body{padding:22px 22px 26px; font-size:13.5px; line-height:1.85; overflow-x:auto}
+.term-body .u{color:var(--green)}
+.term-body .u::before{content:"> "; color:var(--ink-faint)}
+.term-body .c{color:var(--ink-dim)}
+.term-body .hit{color:var(--amber)}
+.term-body .bad{color:var(--red)}
+.term-body .ok{color:var(--green)}
+.tline{opacity:0; transform:translateY(4px); transition:opacity .4s, transform .4s}
+.tline.on{opacity:1; transform:none}
+
+/* arch */
+pre.arch{
+  background:var(--bg2); border:1px solid var(--line); border-radius:8px;
+  padding:26px; font-size:13px; line-height:1.75; color:var(--ink-dim); overflow-x:auto;
+}
+pre.arch b{color:var(--amber); font-weight:500}
+pre.arch i{color:var(--green); font-style:normal}
+
+/* skills */
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px}
+.card{
+  border:1px solid var(--line); border-radius:8px; background:var(--bg2); padding:26px 24px;
+  position:relative; transition:border-color .25s, transform .25s;
+}
+.card:hover{border-color:var(--amber-dim); transform:translateY(-3px)}
+.card .k{color:var(--amber); font-size:15px; font-weight:600; margin-bottom:10px}
+.card .k::before{content:"/"; color:var(--ink-faint)}
+.card p{font-size:13.5px; color:var(--ink-dim)}
+.card a{display:inline-block; margin-top:14px; font-size:13px}
+
+/* safety */
+.rules{display:grid; gap:0; border:1px solid var(--line); border-radius:8px; overflow:hidden}
+.rule{display:grid; grid-template-columns:56px 1fr; background:var(--bg2); border-bottom:1px solid var(--line)}
+.rule:last-child{border-bottom:none}
+.rule .no{display:flex; align-items:center; justify-content:center; color:var(--amber); font-family:'Fraunces',serif; font-size:20px; border-right:1px solid var(--line)}
+.rule div{padding:18px 22px}
+.rule b{display:block; color:var(--ink); font-weight:600; font-size:14.5px; margin-bottom:4px}
+.rule span{font-size:13.5px; color:var(--ink-dim)}
+
+/* faq */
+details{border:1px solid var(--line); border-radius:8px; background:var(--bg2); margin-bottom:12px}
+summary{padding:16px 20px; cursor:pointer; font-weight:500; font-size:14.5px; list-style:none; display:flex; justify-content:space-between; align-items:center}
+summary::after{content:"+"; color:var(--amber); font-size:18px}
+details[open] summary::after{content:"–"}
+details p{padding:0 20px 18px; font-size:13.5px; color:var(--ink-dim)}
+
+/* footer */
+footer{border-top:1px solid var(--line); padding:46px 0 60px; font-size:13.5px; color:var(--ink-dim)}
+footer .wrap{display:flex; flex-wrap:wrap; gap:20px; justify-content:space-between; align-items:center}
+footer .by b{color:var(--ink); font-weight:600}
+footer nav{display:flex; gap:20px}
+
+/* reveal on scroll */
+.rv{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease}
+.rv.on{opacity:1; transform:none}
+@media (prefers-reduced-motion: reduce){ .rv,.tline{opacity:1!important; transform:none!important; transition:none} }
+@media (max-width:640px){ .bar nav{display:none} }
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="wrap">
+  <div class="dots"><i></i><i></i><i></i></div>
+  <div class="path">ebrahim@store: ~/claude-fba</div>
+  <nav>
+    <a href="#results">results</a><a href="#how">how</a><a href="#skills">skills</a>
+    <a href="#safety">safety</a><a href="#faq">faq</a>
+    <a href="https://github.com/EbrahimElbagory/claude-fba">github ↗</a>
+  </nav>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="prompt-line">claude-fba v0.1 — open source, MIT</div>
+  <h1>Your Amazon seller <em>ops team</em> in the terminal.</h1>
+  <p class="sub">Claude Code skills + a <b>zero-dependency Python toolkit</b> that turn Amazon's
+  Selling Partner API and the Helium 10 MCP into an <b>audit → fix → measure</b> loop for your own store.
+  Built by a seller, on a live store, with real money on the line.</p>
+  <div class="install">
+    <code id="cmd">git clone https://github.com/EbrahimElbagory/claude-fba.git</code>
+    <button id="copy" aria-label="Copy install command">COPY</button>
+  </div>
+  <div class="badges">
+    <span><b>5</b> skills</span><span><b>0</b> pip installs</span>
+    <span>official APIs only</span><span>read-only by default</span><span>MIT</span>
+  </div>
+</div></header>
+
+<section id="results"><div class="wrap">
+  <div class="sh rv">DAY ONE ON A REAL STORE</div>
+  <h2 class="rv">Evidence, not promises.</h2>
+  <p class="lede rv">Everything below happened in one working session on a live seven-figure-lifetime store, through official APIs.</p>
+  <div class="stats rv">
+    <div class="stat"><div class="n">437</div><div class="l"><b>review requests sent day one</b> — eligible orders that had been sitting unsolicited, backfilled via the official Solicitations API, then automated daily</div></div>
+    <div class="stat"><div class="n">~25</div><div class="l"><b>API calls for a full-catalog audit</b> — 19 ASINs: listing quality, keyword ranks, BSR trends, review health, inventory cover</div></div>
+    <div class="stat"><div class="n">$3.5–9K</div><div class="l"><b>estimated revenue left on the table</b> found in one audit — empty backend keywords, unsolicited reviews, one broken listing</div></div>
+    <div class="stat"><div class="n">2.7%</div><div class="l"><b>the conversion rate that broke the case</b> — one listing's bullets described a different product; siblings converted at 10–14%</div></div>
+  </div>
+</div></section>
+
+<section id="demo"><div class="wrap">
+  <div class="sh rv">WHAT IT LOOKS LIKE</div>
+  <div class="term rv">
+    <div class="term-head"><div class="dots"><i></i><i></i><i></i></div> claude — ~/claude-fba</div>
+    <div class="term-body" id="termbody">
+      <div class="tline u">audit my store</div>
+      <div class="tline c">Checking Helium 10 quota… 975/1000 calls left. Pulling catalog from SP-API…</div>
+      <div class="tline c">Scoring 11 listings in one LQS call · keyword coverage per family · BSR history…</div>
+      <div class="tline hit">⚠ ASIN #4: bullets describe a DIFFERENT product (accessory copy pasted onto the main listing)</div>
+      <div class="tline hit">⚠ Backend search terms EMPTY on 4 of 4 audited listings — free indexation unused</div>
+      <div class="tline bad">✗ 437 orders eligible for review requests. Zero ever sent.</div>
+      <div class="tline u">fix everything you can via api</div>
+      <div class="tline c">Drafted 2 titles + 5 bullet sets + 4 backend keyword sets → waiting for your approval…</div>
+      <div class="tline ok">✓ 4 listings patched (backups saved) · 437 review requests sent · daily cron installed</div>
+      <div class="tline ok">✓ Baseline captured — next week we measure, not guess.</div>
+    </div>
+  </div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <div class="sh rv">HOW IT WORKS</div>
+  <h2 class="rv">Two data planes, one brain, a cron.</h2>
+  <pre class="arch rv">
+<b>Claude Code</b> ──┬── <b>Helium 10 MCP</b>   <i>market layer</i> — keyword volume, ranks, LQS, CPR, competitors
+              ├── <b>SP-API (yours)</b>  <i>store layer</i>  — listings, orders, solicitations, reports, catalog
+              └── <b>launchd / cron</b>  <i>keeps running</i> — daily review requests, weekly impact snapshots
+
+  skills/ ──→ .claude/skills/   scripts/ = stdlib Python, your creds, your machine</pre>
+  <p class="lede rv" style="margin-top:26px">The market layer needs a paid Helium 10 plan (their official MCP). Everything on the store layer
+  — review automation, safe listing edits, impact tracking, sales analytics — runs on a free
+  self-authorized SP-API app you create in ~30 minutes. <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/docs/SETUP.md">Setup guide →</a></p>
+</div></section>
+
+<section id="skills"><div class="wrap">
+  <div class="sh rv">THE SKILLS</div>
+  <h2 class="rv">Five skills, one loop.</h2>
+  <div class="cards">
+    <div class="card rv"><div class="k">store-audit</div><p>Whole-catalog audit: 13-point listing quality, keyword coverage and ranks, BSR trends, review health, days-of-cover — diffed against saved baselines so trends aren't vibes.</p><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/store-audit/SKILL.md">read the skill →</a></div>
+    <div class="card rv"><div class="k">review-automation</div><p>Backfills a review request for every eligible order (5–30 day window) via Amazon's official Solicitations API, then keeps a daily job running. Idempotent by construction.</p><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/review-automation/SKILL.md">read the skill →</a></div>
+    <div class="card rv"><div class="k">listing-guard</div><p>Live listing edits with a harness: schema check → draft → <b>your approval</b> → backup → PATCH → verify. Rollback is one command because the backup exists before the write.</p><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/listing-guard/SKILL.md">read the skill →</a></div>
+    <div class="card rv"><div class="k">impact-tracker</div><p>Baseline before you touch anything; weekly per-ASIN sessions/conversion/revenue snapshots after. Conversion moves in days — it tells you what worked before rank does.</p><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/impact-tracker/SKILL.md">read the skill →</a></div>
+    <div class="card rv"><div class="k">brand-guard</div><p>Do you actually own your brand? Verifies Brand Registry roles, connected seller accounts, and the USPTO record — the check that saves acquisitions from nasty surprises.</p><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/brand-guard/SKILL.md">read the skill →</a></div>
+    <div class="card rv"><div class="k">scripts/</div><p>The plumbing: a ~300-line stdlib SP-API client (LWA-only, retry/backoff), review solicitation, weekly tracking, Ads API auth. Python 3.9+, zero pip installs.</p><a href="https://github.com/EbrahimElbagory/claude-fba/tree/main/scripts">browse →</a></div>
+  </div>
+</div></section>
+
+<section id="safety"><div class="wrap">
+  <div class="sh rv">LIVE STORE, REAL MONEY</div>
+  <h2 class="rv">The safety model is the feature.</h2>
+  <p class="lede rv">Letting an agent touch a revenue-producing store only works with hard rules. These are non-negotiable in every skill:</p>
+  <div class="rules rv">
+    <div class="rule"><div class="no">1</div><div><b>Read-only by default</b><span>A full audit writes nothing. Most sessions never mutate anything.</span></div></div>
+    <div class="rule"><div class="no">2</div><div><b>Draft → human approval → execute</b><span>No buyer-visible change ships until you approve the exact copy in chat.</span></div></div>
+    <div class="rule"><div class="no">3</div><div><b>Backup before write, verify after</b><span>Pre-edit state saved per SKU; post-PATCH re-read checks for new errors. Rollback is one command.</span></div></div>
+    <div class="rule"><div class="no">4</div><div><b>Official APIs only</b><span>Your own SP-API app, Helium 10's own MCP. Nothing scraped, no ToS games — review requests use Amazon's own mechanism.</span></div></div>
+    <div class="rule"><div class="no">5</div><div><b>Honest about limits</b><span>Bullets on restricted product types, coupons, removal orders, role changes — no API path exists, and the skills say so instead of pretending.</span></div></div>
+  </div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <div class="sh rv">FAQ</div>
+  <h2 class="rv" style="margin-bottom:34px">Questions sellers actually ask.</h2>
+  <details class="rv"><summary>Is this against Amazon's terms of service?</summary><p>No. It's your own store accessed through your own self-authorized SP-API app — the same official interface every seller tool uses. Review requests go through Amazon's Solicitations API, functionally identical to the "Request a Review" button in Seller Central. Nothing is scraped or automated through the website.</p></details>
+  <details class="rv"><summary>Do I need Helium 10?</summary><p>For the market layer (keyword volumes, rank data, listing quality scores, competitor intel) — yes, a paid plan; the audit uses their official MCP server. Everything SP-API-side works without it: review automation, listing edits, impact tracking, sales analytics.</p></details>
+  <details class="rv"><summary>What does it cost to run?</summary><p>Claude Code (your existing subscription) + optionally Helium 10. The toolkit itself is free, MIT-licensed, stdlib-only Python — no servers, no pip installs, runs on your laptop. A full store audit uses ~25 of your 1,000 monthly Helium 10 MCP calls.</p></details>
+  <details class="rv"><summary>Can it break my listings?</summary><p>The harness is built so it can't do so silently: schema is checked before edits are promised, every change is drafted for your approval first, the pre-edit state is backed up before any write, and the result is verified after. Rollback = re-apply the backup.</p></details>
+  <details class="rv"><summary>Does it work on Windows / Linux?</summary><p>Scripts and skills run anywhere Python 3.9+ does. The two automation templates are macOS launchd; on Linux use the equivalent cron lines (in the docs), on Windows use Task Scheduler.</p></details>
+  <details class="rv"><summary>What's on the roadmap?</summary><p>Amazon Ads API campaign automation (CPR-sized ranking pushes — the auth client is already in scripts/), Search Query Performance funnel analysis, and multi-marketplace support. Issues and PRs welcome.</p></details>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="by">Built by <b>Ebrahim Elbagory</b> — Amazon seller, builder. Ships real changes on his own store first.</div>
+  <nav>
+    <a href="https://github.com/EbrahimElbagory/claude-fba">GitHub ↗</a>
+    <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/docs/SAFETY.md">Safety model</a>
+    <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/LICENSE">MIT</a>
+  </nav>
+</div></footer>
+
+<script>
+document.getElementById('copy').addEventListener('click', async () => {
+  const b = document.getElementById('copy');
+  await navigator.clipboard.writeText(document.getElementById('cmd').textContent);
+  b.textContent = 'COPIED'; setTimeout(() => b.textContent = 'COPY', 1600);
+});
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+}), {threshold:.12});
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+const tio = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return; tio.disconnect();
+  document.querySelectorAll('.tline').forEach((l,i)=>setTimeout(()=>l.classList.add('on'), 500+i*650));
+}), {threshold:.3});
+tio.observe(document.getElementById('termbody'));
+</script>
+</body>
+</html>
