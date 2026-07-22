@@ -149,6 +149,36 @@ h2{font-size:clamp(34px,5vw,58px); line-height:.94; color:var(--ink); margin-bot
 .rrow .note{grid-column:1/-1; font-size:11.5px; color:var(--dim); margin-top:2px}
 .receipt-foot{display:flex; justify-content:space-between; align-items:center; padding-top:20px; font-size:10px; letter-spacing:.2em; color:var(--dim); text-transform:uppercase}
 
+/* audit log */
+.log{border:2px solid var(--line); background:#0b0b0b; max-width:880px}
+.log .l-head{display:flex; justify-content:space-between; padding:13px 20px; border-bottom:1px solid var(--line-soft); font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:var(--dim)}
+.log .l-body{padding:20px 24px; font-size:12.5px; line-height:2.1; overflow-x:auto}
+.log .ln{display:block; white-space:nowrap}
+.log .ts{color:var(--dim); margin-right:14px}
+.log .ok{color:var(--ok)} .log .warn{color:var(--orange)} .log .err{color:#e0574f}
+.log .val{color:var(--ink)}
+
+/* scoreboard */
+.score{width:100%; max-width:880px; border-collapse:collapse; border:2px solid var(--line); background:var(--plate); margin-top:26px; font-size:12.5px}
+.score th{font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim); text-align:left; padding:14px 20px; border-bottom:2px solid var(--line)}
+.score td{padding:16px 20px; border-bottom:1px solid var(--line-soft); vertical-align:middle}
+.score tr:last-child td{border-bottom:none}
+.score td.m{color:var(--ink)}
+.score td.n{font-family:'Big Shoulders','Archivo Black',sans-serif; font-weight:800; font-size:26px; color:var(--ink); white-space:nowrap}
+.score td.n em{font-style:normal; color:var(--dim); font-size:15px; margin:0 8px}
+.score td.n b{color:var(--orange)}
+.score .st{font-size:9.5px; letter-spacing:.2em; padding:4px 10px; border:1px solid var(--line); color:var(--dim); white-space:nowrap}
+.score .st.done{color:var(--ok); border-color:var(--ok)}
+.score .st.live{color:var(--orange); border-color:var(--orange)}
+
+/* follow strip */
+.follow{display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; border:1px dashed var(--line); background:var(--plate2); max-width:880px; margin-top:26px; padding:18px 24px}
+.follow p{font-size:12px; margin:0}
+.follow p b{color:var(--ink); font-weight:500}
+.follow a.x{display:inline-flex; align-items:center; gap:10px; border:1px solid var(--line); padding:10px 18px; font-size:11px; letter-spacing:.16em; color:var(--ink)}
+.follow a.x:hover{border-color:var(--orange); color:var(--orange)}
+.follow a.x svg{width:13px; height:13px; fill:currentColor}
+
 /* terminal */
 .term{border:2px solid var(--line); background:#0b0b0b; max-width:880px}
 .term-head{display:flex; gap:7px; padding:13px 18px; border-bottom:1px solid var(--line-soft); align-items:center}
@@ -286,21 +316,39 @@ footer nav a{color:var(--dim)} footer nav a:hover{color:var(--orange)}
 </div></div>
 
 <section id="results"><div class="wrap">
-  <div class="field-tag rv"><i></i><span>Field 01 — Findings report</span></div>
-  <h2 class="disp rv">Evidence, not promises.</h2>
-  <p class="lede rv">One working session. One live store doing six figures a year. Official APIs only. Itemized:</p>
-  <div class="receipt rv"><div class="receipt-in">
-    <div class="receipt-head"><span>Findings — audit #001</span><span>2026-07-22</span></div>
-    <div class="rrow"><span class="k">Review requests sent, day one</span><span class="dots"></span><span class="amt">437</span>
-      <span class="note">Eligible orders sitting unsolicited — backfilled via Amazon's official Solicitations API, then automated daily.</span></div>
-    <div class="rrow"><span class="k">API calls for a full 19-ASIN audit</span><span class="dots"></span><span class="amt">~25</span>
-      <span class="note">Listing quality, keyword ranks, BSR trends, review health, inventory cover.</span></div>
-    <div class="rrow"><span class="k">Estimated annual revenue leaks found</span><span class="dots"></span><span class="amt">$3.5–9K</span>
-      <span class="note">Empty backend keywords, forgone reviews, one broken listing. All process failures — zero budget required to fix.</span></div>
-    <div class="rrow"><span class="k">The conversion smoking gun</span><span class="dots"></span><span class="amt">2.7%</span>
-      <span class="note">One listing's bullets described a different product. Sibling listings converted at 10–14%. No human had re-read it in months.</span></div>
-    <div class="receipt-foot"><span>*** Thank you for auditing ***</span><span>Keep this receipt</span></div>
-  </div></div>
+  <div class="field-tag rv"><i></i><span>Field 01 — Audit log</span></div>
+  <h2 class="disp rv">Day one. Logged.</h2>
+  <p class="lede rv">2026-07-22, one session, my own store. Numbers straight from the API responses —
+  nothing here is a projection. The scoreboard below updates as the measurements land.</p>
+
+  <div class="log rv">
+    <div class="l-head"><span>session output — 2026-07-22</span><span>verbatim</span></div>
+    <div class="l-body">
+      <span class="ln"><span class="ts">14:07</span>audit: 19 ASINs · <span class="val">~25</span> API calls · listing quality, keyword ranks, BSR, reviews, inventory</span>
+      <span class="ln"><span class="ts">14:31</span><span class="warn">⚠ backend search terms empty on 4/4 audited listings</span></span>
+      <span class="ln"><span class="ts">14:32</span><span class="warn">⚠ one listing's bullets describe a different product · converting 2.7% vs 10–14% siblings</span></span>
+      <span class="ln"><span class="ts">15:58</span>listings PATCH ×4 → <span class="ok">ACCEPTED</span> (titles + backend keywords · backups saved first)</span>
+      <span class="ln"><span class="ts">16:44</span>solicit_reviews.py → <span class="val">437 sent, 18 ineligible, 0 errors</span></span>
+      <span class="ln"><span class="ts">16:59</span>rerun (dedupe test) → <span class="ok">0 sent, 452 already logged</span></span>
+      <span class="ln"><span class="ts">17:03</span>cron installed: reviews daily 10:00 · impact snapshot mon 09:00</span>
+      <span class="ln"><span class="ts">17:10</span>baseline captured → est. <span class="val">$3.5–9K/yr</span> in process leaks documented</span>
+    </div>
+  </div>
+
+  <table class="score rv">
+    <tr><th>Public scoreboard</th><th>Day 0</th><th>Day 30</th><th>Status</th></tr>
+    <tr><td class="m">Reviews — newest ASIN</td><td class="n">13</td><td class="n"><b>?</b></td><td><span class="st live">MEASURING</span></td></tr>
+    <tr><td class="m">Reviews — 2nd-newest ASIN</td><td class="n">51</td><td class="n"><b>?</b></td><td><span class="st live">MEASURING</span></td></tr>
+    <tr><td class="m">Conversion — the fixed listing</td><td class="n">2.7%</td><td class="n"><b>?</b></td><td><span class="st live">MEASURING</span></td></tr>
+    <tr><td class="m">Core keyword rank</td><td class="n">#6–9</td><td class="n"><b>?</b></td><td><span class="st live">MEASURING</span></td></tr>
+    <tr><td class="m">Backend keywords filled</td><td class="n">0<em>/</em>4</td><td class="n">4<em>/</em>4</td><td><span class="st done">DONE — DAY 0</span></td></tr>
+  </table>
+
+  <div class="follow rv">
+    <p><b>This is a live experiment on a real store.</b> The Day-30 column gets filled in public,
+    win or lose — weekly numbers posted as they land.</p>
+    <a class="x" href="https://x.com/ebrahimelb"><svg viewBox="0 0 24 24"><path d="M18.9 1.2h3.7l-8.1 9.3L24 22.8h-7.5l-5.9-7.7-6.7 7.7H.2l8.7-9.9L0 1.2h7.7l5.3 7 6-7zm-1.3 19.4h2L6.6 3.3H4.4l13.2 17.3z"/></svg>@ebrahimelb</a>
+  </div>
 </div></section>
 
 <hr class="perf">
@@ -411,6 +459,7 @@ footer nav a{color:var(--dim)} footer nav a:hover{color:var(--orange)}
     <a href="https://github.com/EbrahimElbagory/claude-fba">GitHub</a>
     <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/docs/SETUP.md">Setup</a>
     <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/docs/SAFETY.md">Safety</a>
+    <a href="https://x.com/ebrahimelb">X / Twitter</a>
     <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/LICENSE">License</a>
   </nav>
 </div></footer>
