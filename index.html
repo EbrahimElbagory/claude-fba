@@ -9,254 +9,308 @@
 <meta property="og:description" content="Audit → fix → measure your Amazon store with Claude Code. 437 review requests sent day one. Open source, MIT.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230e0e0e'/><rect x='18' y='18' width='64' height='64' fill='%23e2703a'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:opsz,wght@10..72,700;10..72,800&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23101010'/><path d='M20 20h12v60H20zM38 20h6v60h-6zM50 20h4v60h-4zM60 20h10v60H60zM76 20h4v60h-4z' fill='%23e8IGNORE' /><path d='M20 20h12v60H20zM38 20h6v60h-6zM50 20h4v60h-4zM60 20h10v60H60zM76 20h4v60h-4z' fill='%23e2703a'/></svg>">
 <style>
 :root{
-  --bg:#0e0e0e; --panel:#141414; --line:#242424; --line2:#1b1b1b;
-  --orange:#e2703a; --orange-hi:#f08050;
-  --green:#4ade80; --blue:#60a5fa; --violet:#c084fc;
-  --white:#f2f0ec; --gray:#9c9c96; --dim:#5c5c58;
+  --bg:#101010; --plate:#151412; --plate2:#1a1815; --line:#2a2723; --line-soft:#1e1c19;
+  --orange:#e2703a; --orange-hi:#f08a55;
+  --ink:#efeae2; --gray:#a09a90; --dim:#5f5a52;
+  --ok:#79c98b;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   background:var(--bg); color:var(--gray);
   font-family:'IBM Plex Mono',ui-monospace,monospace;
-  font-size:14px; line-height:1.7;
-  -webkit-font-smoothing:antialiased;
+  font-size:14px; line-height:1.7; -webkit-font-smoothing:antialiased;
 }
 ::selection{background:var(--orange); color:var(--bg)}
 a{color:inherit; text-decoration:none}
-.wrap{max-width:1120px; margin:0 auto; padding:0 28px}
-.mono-caps{font-size:11px; letter-spacing:.18em; text-transform:uppercase}
+.wrap{max-width:1140px; margin:0 auto; padding:0 28px}
+.disp{font-family:'Big Shoulders','Archivo Black',sans-serif; font-weight:800; text-transform:uppercase}
 
-/* ============ NAV ============ */
-header.nav{position:sticky; top:0; z-index:50; background:rgba(14,14,14,.88); backdrop-filter:blur(8px)}
-header.nav .wrap{display:flex; align-items:center; height:76px; gap:40px}
-.logo{display:flex; align-items:center; gap:12px; color:var(--white); font-weight:600; font-size:13px; letter-spacing:.22em}
-.logo i{width:13px; height:13px; background:var(--orange); display:inline-block}
-nav.links{display:flex; gap:34px; margin-left:auto}
+/* ---------- barcode util ---------- */
+.barcode{
+  height:44px;
+  background:
+    repeating-linear-gradient(90deg,
+      var(--ink) 0 2px, transparent 2px 4px,
+      var(--ink) 4px 5px, transparent 5px 9px,
+      var(--ink) 9px 12px, transparent 12px 14px,
+      var(--ink) 14px 15px, transparent 15px 20px,
+      var(--ink) 20px 22px, transparent 22px 23px,
+      var(--ink) 23px 27px, transparent 27px 31px);
+}
+.barcode.orange{filter:none; background:
+    repeating-linear-gradient(90deg,
+      var(--orange) 0 2px, transparent 2px 4px,
+      var(--orange) 4px 5px, transparent 5px 9px,
+      var(--orange) 9px 12px, transparent 12px 14px,
+      var(--orange) 14px 15px, transparent 15px 20px,
+      var(--orange) 20px 22px, transparent 22px 23px,
+      var(--orange) 23px 27px, transparent 27px 31px);}
+
+/* ---------- perforation divider ---------- */
+.perf{position:relative; border:none; border-top:2px dashed var(--line); margin:0}
+.perf::before{content:"✂"; position:absolute; left:34px; top:-13px; color:var(--dim); font-size:15px; background:var(--bg); padding:0 8px}
+
+/* ---------- nav ---------- */
+header.nav{position:sticky; top:0; z-index:50; background:rgba(16,16,16,.9); backdrop-filter:blur(8px); border-bottom:1px solid var(--line-soft)}
+header.nav .wrap{display:flex; align-items:center; height:66px; gap:36px}
+.logo{display:flex; align-items:baseline; gap:10px; color:var(--ink)}
+.logo .disp{font-size:22px; letter-spacing:.04em}
+.logo .disp b{color:var(--orange); font-weight:800}
+.logo small{font-size:10px; letter-spacing:.22em; color:var(--dim)}
+nav.links{display:flex; gap:30px; margin-left:auto}
 nav.links a{color:var(--gray); font-size:11px; letter-spacing:.18em}
-nav.links a:hover{color:var(--white)}
-.gh-top{margin-left:8px; display:flex; align-items:center; justify-content:center; width:36px; height:36px; border:1px solid var(--line); border-radius:50%; color:var(--gray)}
-.gh-top:hover{color:var(--white); border-color:var(--gray)}
-.gh-top svg{width:16px; height:16px; fill:currentColor}
+nav.links a:hover{color:var(--orange)}
+.gh-top{font-size:11px; letter-spacing:.14em; border:1px solid var(--line); padding:8px 16px; color:var(--ink)}
+.gh-top:hover{border-color:var(--orange); color:var(--orange)}
 
-/* ============ HERO ============ */
-.hero{position:relative; text-align:center; padding:150px 0 110px; overflow:hidden}
-.chip-ver{
-  display:inline-block; border:1px solid var(--line); background:var(--panel);
-  padding:9px 22px; font-size:11.5px; letter-spacing:.12em; margin-bottom:54px;
+/* ---------- hero waybill ---------- */
+.hero{padding:72px 0 64px}
+.label{
+  position:relative; border:2px solid var(--line); background:var(--plate);
+  box-shadow:0 30px 80px -50px rgba(0,0,0,.9);
 }
-.chip-ver b{color:var(--orange); font-weight:600}
-.chip-ver span{color:var(--dim)}
-h1{
-  font-family:'Archivo Black',sans-serif; font-weight:400;
-  font-size:clamp(38px,6.6vw,92px); line-height:.98; white-space:nowrap; letter-spacing:-.012em;
-  text-transform:uppercase; color:var(--white); margin-bottom:52px;
-}
-h1 .l2{color:var(--orange); display:block}
-.hero p.desc{max-width:600px; margin:0 auto 14px; font-size:14.5px; color:var(--gray)}
-.hero p.desc b{color:var(--white); font-weight:500}
-.byline{font-size:11.5px; color:var(--dim); letter-spacing:.06em; margin-bottom:64px}
-.byline a{color:var(--dim); text-decoration:underline; text-underline-offset:3px}
+/* registration corner ticks */
+.tick{position:absolute; width:18px; height:18px; border-color:var(--orange); border-style:solid; border-width:0}
+.tick.tl{top:-2px; left:-2px; border-top-width:2px; border-left-width:2px}
+.tick.tr{top:-2px; right:-2px; border-top-width:2px; border-right-width:2px}
+.tick.bl{bottom:-2px; left:-2px; border-bottom-width:2px; border-left-width:2px}
+.tick.br{bottom:-2px; right:-2px; border-bottom-width:2px; border-right-width:2px}
+
+.lab-row{display:grid; grid-template-columns:1fr 1fr 1fr 1fr; border-bottom:1px solid var(--line)}
+.lab-cell{padding:14px 20px 12px; border-right:1px solid var(--line)}
+.lab-cell:last-child{border-right:none}
+.lab-cell .f{font-size:9.5px; letter-spacing:.22em; color:var(--dim); text-transform:uppercase; display:block; margin-bottom:3px}
+.lab-cell .v{font-size:12px; color:var(--ink); letter-spacing:.04em}
+.lab-cell .v.o{color:var(--orange)}
+@media (max-width:880px){ .lab-row{grid-template-columns:1fr 1fr} .lab-cell{border-bottom:1px solid var(--line-soft)} }
+
+.lab-main{padding:64px 48px 56px; text-align:left; position:relative; overflow:hidden}
+h1{font-size:clamp(54px,10vw,148px); line-height:.88; letter-spacing:.005em; color:var(--ink); margin-bottom:38px}
+h1 span{color:var(--orange); display:block}
+.hero .sub{max-width:560px; font-size:14px; margin-bottom:8px}
+.hero .sub b{color:var(--ink); font-weight:500}
+.byline{font-size:11px; color:var(--dim); letter-spacing:.05em}
+.byline a{text-decoration:underline; text-underline-offset:3px}
 .byline a:hover{color:var(--gray)}
 
-.install{
-  display:flex; align-items:stretch; max-width:660px; margin:0 auto 34px;
-  border:1px solid var(--line); background:var(--panel);
+/* rubber stamp */
+.stamp{
+  position:absolute; right:42px; top:50px; rotate:8deg;
+  border:3px double var(--orange); color:var(--orange); padding:12px 20px;
+  font-size:12px; letter-spacing:.26em; text-transform:uppercase; text-align:center;
+  opacity:.85; mask-image:radial-gradient(circle at 30% 40%, black 96%, transparent 100%);
 }
-.install .dollar{display:flex; align-items:center; padding:0 0 0 20px; color:var(--dim); border-right:1px solid var(--line2); padding-right:16px}
-.install code{flex:1; display:flex; align-items:center; padding:17px 18px; font-size:13.5px; color:var(--orange-hi); overflow-x:auto; white-space:nowrap}
-.install button{
-  border:none; background:var(--orange); color:#0e0e0e; font:inherit; font-weight:600;
-  font-size:12px; letter-spacing:.12em; padding:0 26px; cursor:pointer;
-}
+.stamp small{display:block; font-size:9px; letter-spacing:.3em; margin-top:4px; color:var(--gray)}
+@media (max-width:980px){ .stamp{display:none} }
+
+.lab-foot{display:grid; grid-template-columns:1.4fr 1fr; border-top:1px solid var(--line)}
+@media (max-width:880px){ .lab-foot{grid-template-columns:1fr} }
+.lab-install{padding:26px 30px; border-right:1px solid var(--line)}
+.lab-install .f{font-size:9.5px; letter-spacing:.22em; color:var(--dim); text-transform:uppercase; display:block; margin-bottom:12px}
+.install{display:flex; border:1px solid var(--line); background:var(--bg)}
+.install code{flex:1; display:flex; align-items:center; padding:15px 16px; font-size:13px; color:var(--ink); overflow-x:auto; white-space:nowrap}
+.install code::before{content:"$ "; color:var(--orange); margin-right:6px}
+.install button{border:none; background:var(--orange); color:var(--bg); font:inherit; font-weight:600; font-size:11.5px; letter-spacing:.14em; padding:0 22px; cursor:pointer}
 .install button:hover{background:var(--orange-hi)}
-.foot-note{font-size:10.5px; letter-spacing:.16em; color:var(--dim); text-transform:uppercase; margin-bottom:10px}
-.hero-cta{display:flex; align-items:center; justify-content:center; gap:26px; margin-top:44px; flex-wrap:wrap}
-.gh-pill{display:flex; align-items:center; gap:10px; border:1px solid var(--line); background:var(--panel); padding:11px 20px; font-size:11.5px; letter-spacing:.14em; color:var(--white)}
-.gh-pill:hover{border-color:var(--gray)}
-.gh-pill svg{width:15px; height:15px; fill:currentColor}
-.gh-pill em{color:var(--orange); font-style:normal}
-.hero-cta a.tx{font-size:11px; letter-spacing:.18em; color:var(--gray)}
-.hero-cta a.tx:hover{color:var(--white)}
+.reqs{margin-top:12px; font-size:10px; letter-spacing:.14em; color:var(--dim); text-transform:uppercase}
+.lab-code{padding:26px 30px; display:flex; flex-direction:column; justify-content:center; gap:8px}
+.lab-code .num{font-size:10.5px; letter-spacing:.42em; color:var(--gray); text-align:center}
 
-/* floating cursors */
-.cur{position:absolute; z-index:2; pointer-events:none; opacity:0; animation:curIn .7s ease forwards}
-.cur .arrow{width:13px; height:13px; margin-bottom:2px}
-.cur .tag{font-size:10px; letter-spacing:.1em; font-weight:600; color:#0e0e0e; padding:3px 9px; display:inline-block}
-.cur.float{animation:curIn .7s ease forwards, drift 7s ease-in-out infinite alternate}
-@keyframes curIn{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
-@keyframes drift{from{margin-top:0; margin-left:0} to{margin-top:26px; margin-left:14px}}
-@media (max-width:760px){ .cur{display:none} }
+/* ---------- ticker ---------- */
+.ticker{border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft); background:var(--plate); overflow:hidden}
+.ticker-inner{display:flex; width:max-content; animation:belt 36s linear infinite; padding:13px 0}
+.ticker-inner span{font-size:11px; letter-spacing:.2em; color:var(--gray); text-transform:uppercase; padding:0 26px; white-space:nowrap}
+.ticker-inner span i{color:var(--orange); font-style:normal; margin-right:26px}
+@keyframes belt{from{transform:translateX(0)} to{transform:translateX(-50%)}}
+.ticker:hover .ticker-inner{animation-play-state:paused}
 
-/* ============ SECTIONS ============ */
-section{padding:104px 0; border-top:1px solid var(--line2)}
-.sh{font-size:11px; letter-spacing:.22em; color:var(--orange); text-transform:uppercase; margin-bottom:16px}
-.sh::before{content:"// "; color:var(--dim)}
-h2{
-  font-family:'Archivo Black',sans-serif; font-weight:400; text-transform:uppercase;
-  font-size:clamp(26px,4vw,44px); line-height:1.02; letter-spacing:-.008em; color:var(--white); margin-bottom:18px;
-}
-.lede{max-width:640px; font-size:13.5px; margin-bottom:56px}
-.center{text-align:center}
-.center .lede{margin-left:auto; margin-right:auto}
+/* ---------- sections ---------- */
+section{padding:96px 0}
+.field-tag{display:inline-flex; align-items:center; gap:12px; margin-bottom:20px}
+.field-tag i{width:34px; height:2px; background:var(--orange)}
+.field-tag span{font-size:10.5px; letter-spacing:.28em; color:var(--orange); text-transform:uppercase}
+h2{font-size:clamp(34px,5vw,58px); line-height:.94; color:var(--ink); margin-bottom:16px}
+.lede{max-width:620px; font-size:13.5px; margin-bottom:52px}
 
-/* stats */
-.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); border:1px solid var(--line)}
-.stat{background:var(--panel); padding:38px 28px; border-right:1px solid var(--line)}
-.stat:last-child{border-right:none}
-@media (max-width:1000px){ .stat{border-bottom:1px solid var(--line)} }
-.stat .n{font-family:'Archivo Black',sans-serif; font-size:52px; line-height:1; color:var(--orange); margin-bottom:16px}
-.stat .l{font-size:12px; color:var(--gray)}
-.stat .l b{color:var(--white); font-weight:500; display:block; margin-bottom:6px; font-size:12.5px; letter-spacing:.04em; text-transform:uppercase}
+/* receipt stats */
+.receipt{border:2px dashed var(--line); background:var(--plate); max-width:880px; padding:8px}
+.receipt-in{border:1px solid var(--line-soft); padding:34px 38px}
+.receipt-head{display:flex; justify-content:space-between; font-size:10px; letter-spacing:.24em; color:var(--dim); text-transform:uppercase; margin-bottom:26px}
+.rrow{display:grid; grid-template-columns:auto 1fr auto; align-items:baseline; gap:14px; padding:15px 0; border-bottom:1px dotted var(--line)}
+.rrow:last-of-type{border-bottom:2px solid var(--line)}
+.rrow .k{color:var(--ink); font-size:13px; letter-spacing:.04em}
+.rrow .dots{border-bottom:1px dotted var(--dim); transform:translateY(-4px)}
+.rrow .amt{font-family:'Big Shoulders','Archivo Black',sans-serif; font-weight:800; font-size:40px; line-height:1; color:var(--orange)}
+.rrow .note{grid-column:1/-1; font-size:11.5px; color:var(--dim); margin-top:2px}
+.receipt-foot{display:flex; justify-content:space-between; align-items:center; padding-top:20px; font-size:10px; letter-spacing:.2em; color:var(--dim); text-transform:uppercase}
 
 /* terminal */
-.term{border:1px solid var(--line); background:#0a0a0a; max-width:860px; margin:0 auto; text-align:left}
-.term-head{display:flex; gap:7px; padding:14px 18px; border-bottom:1px solid var(--line2)}
-.term-head i{width:10px; height:10px; border-radius:50%; background:var(--line)}
-.term-head i:first-child{background:#e0574f}.term-head i:nth-child(2){background:#e2a53a}.term-head i:nth-child(3){background:#4ade80}
-.term-head span{margin-left:auto; font-size:10.5px; letter-spacing:.14em; color:var(--dim)}
-.term-body{padding:26px 26px 30px; font-size:13px; line-height:2; overflow-x:auto}
-.term-body .u{color:var(--white)} .term-body .u::before{content:"> "; color:var(--orange)}
+.term{border:2px solid var(--line); background:#0b0b0b; max-width:880px}
+.term-head{display:flex; gap:7px; padding:13px 18px; border-bottom:1px solid var(--line-soft); align-items:center}
+.term-head i{width:9px; height:9px; border-radius:50%; background:var(--line)}
+.term-head span{margin-left:auto; font-size:10px; letter-spacing:.18em; color:var(--dim)}
+.term-body{padding:26px 28px 30px; font-size:13px; line-height:2.05; overflow-x:auto}
+.term-body .u{color:var(--ink)} .term-body .u::before{content:"> "; color:var(--orange)}
 .term-body .c{color:var(--dim)}
 .term-body .hit{color:var(--orange)}
 .term-body .bad{color:#e0574f}
-.term-body .ok{color:var(--green)}
+.term-body .ok{color:var(--ok)}
 .tline{opacity:0}
 .tline.on{opacity:1; transition:opacity .35s}
 
 /* arch */
-pre.arch{
-  border:1px solid var(--line); background:var(--panel); max-width:860px; margin:0 auto;
-  padding:34px; font-size:12.5px; line-height:1.9; color:var(--gray); overflow-x:auto; text-align:left;
-}
-pre.arch b{color:var(--white); font-weight:600}
+pre.arch{border:2px solid var(--line); background:var(--plate); max-width:880px; padding:34px; font-size:12.5px; line-height:1.95; color:var(--gray); overflow-x:auto}
+pre.arch b{color:var(--ink); font-weight:600}
 pre.arch i{color:var(--orange); font-style:normal}
 
-/* skills */
-.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); border:1px solid var(--line); border-bottom:none}
-.card{background:var(--bg); padding:36px 30px; border-bottom:1px solid var(--line); border-right:1px solid var(--line); transition:background .2s}
-.card:hover{background:var(--panel)}
-.card .k{color:var(--white); font-size:13px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; margin-bottom:14px}
-.card .k::before{content:"/ "; color:var(--orange)}
-.card p{font-size:12.5px}
-.card a{display:inline-block; margin-top:18px; font-size:10.5px; letter-spacing:.18em; color:var(--orange); text-transform:uppercase}
-.card a:hover{color:var(--orange-hi)}
+/* skill stickers */
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:22px}
+.card{
+  border:1px solid var(--line); background:var(--plate); padding:0;
+  transition:transform .2s, border-color .2s;
+}
+.card:hover{transform:translateY(-4px) rotate(-.4deg); border-color:var(--orange)}
+.card .head{display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px dashed var(--line)}
+.card .head .k{font-family:'Big Shoulders','Archivo Black',sans-serif; font-weight:800; text-transform:uppercase; font-size:22px; letter-spacing:.03em; color:var(--ink)}
+.card .head .no{font-size:10px; letter-spacing:.22em; color:var(--dim)}
+.card p{padding:20px 22px 8px; font-size:12.5px}
+.card .foot{display:flex; justify-content:space-between; align-items:flex-end; padding:14px 22px 18px}
+.card .foot a{font-size:10px; letter-spacing:.2em; color:var(--orange); text-transform:uppercase}
+.card .foot a:hover{color:var(--orange-hi)}
+.card .foot .mini{width:74px; height:16px; opacity:.5}
 
-/* safety */
-.rules{border:1px solid var(--line); max-width:860px; margin:0 auto; text-align:left}
-.rule{display:grid; grid-template-columns:72px 1fr; border-bottom:1px solid var(--line); background:var(--bg)}
-.rule:last-child{border-bottom:none}
-.rule .no{display:flex; align-items:center; justify-content:center; font-family:'Archivo Black',sans-serif; font-size:19px; color:var(--orange); border-right:1px solid var(--line)}
-.rule div.t{padding:22px 26px}
-.rule b{display:block; color:var(--white); font-weight:500; font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:5px}
-.rule span{font-size:12.5px; color:var(--gray)}
+/* manifest / safety */
+.manifest{border:2px solid var(--line); max-width:880px; background:var(--plate)}
+.manifest .m-head{display:flex; justify-content:space-between; padding:16px 26px; border-bottom:2px solid var(--line); font-size:10px; letter-spacing:.26em; text-transform:uppercase; color:var(--dim)}
+.manifest .m-head b{color:var(--orange); font-weight:600}
+.mrow{display:grid; grid-template-columns:64px 1fr; border-bottom:1px solid var(--line-soft)}
+.mrow:last-child{border-bottom:none}
+.mrow .box{display:flex; align-items:center; justify-content:center; border-right:1px solid var(--line-soft); color:var(--ok); font-size:16px}
+.mrow .t{padding:20px 26px}
+.mrow b{display:block; color:var(--ink); font-weight:500; font-size:13px; letter-spacing:.06em; text-transform:uppercase; margin-bottom:4px}
+.mrow span{font-size:12.5px}
 
 /* faq */
-.faq{max-width:760px; margin:0 auto; text-align:left}
-details{border:1px solid var(--line); background:var(--bg); margin-bottom:-1px}
-summary{padding:20px 24px; cursor:pointer; color:var(--white); font-size:13px; list-style:none; display:flex; justify-content:space-between; align-items:center; letter-spacing:.02em}
+.faq{max-width:800px}
+details{border:1px solid var(--line); background:var(--plate); margin-bottom:-1px}
+summary{padding:19px 24px; cursor:pointer; color:var(--ink); font-size:13px; list-style:none; display:flex; justify-content:space-between; gap:20px}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"+"; color:var(--orange); font-size:17px; font-weight:600}
-details[open]{background:var(--panel)}
-details[open] summary::after{content:"–"}
+summary::after{content:"[+]"; color:var(--orange); font-size:12px; flex-shrink:0}
+details[open]{background:var(--plate2)}
+details[open] summary::after{content:"[–]"}
 details p{padding:0 24px 22px; font-size:12.5px}
 
 /* footer */
-footer{border-top:1px solid var(--line2); padding:64px 0 80px; text-align:center}
-footer .logo{justify-content:center; margin-bottom:22px}
-footer .by{font-size:12px; color:var(--gray); margin-bottom:28px}
-footer .by b{color:var(--white); font-weight:500}
-footer nav{display:flex; justify-content:center; gap:34px; font-size:10.5px; letter-spacing:.2em; text-transform:uppercase}
+footer{border-top:2px dashed var(--line); padding:56px 0 70px}
+footer .wrap{display:flex; flex-wrap:wrap; align-items:center; gap:30px; justify-content:space-between}
+footer .by{font-size:12px}
+footer .by b{color:var(--ink); font-weight:500}
+footer .stack{display:flex; flex-direction:column; gap:8px}
+footer .barcode{width:190px; height:30px}
+footer .num{font-size:9.5px; letter-spacing:.4em; color:var(--dim); text-align:center}
+footer nav{display:flex; gap:28px; font-size:10.5px; letter-spacing:.2em; text-transform:uppercase}
 footer nav a{color:var(--dim)} footer nav a:hover{color:var(--orange)}
 
 /* reveal */
-.rv{opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease}
+.rv{opacity:0; transform:translateY(14px); transition:opacity .7s ease, transform .7s ease}
 .rv.on{opacity:1; transform:none}
-@media (prefers-reduced-motion:reduce){ .rv,.tline,.cur{opacity:1!important; transform:none!important; animation:none!important; transition:none} }
-@media (max-width:720px){ nav.links{display:none} h1{white-space:normal} }
+@media (prefers-reduced-motion:reduce){ .rv,.tline{opacity:1!important; transform:none!important; transition:none} .ticker-inner{animation:none} }
+@media (max-width:720px){ nav.links{display:none} .lab-main{padding:44px 26px} }
 </style>
 </head>
 <body>
 
 <header class="nav"><div class="wrap">
-  <a class="logo" href="#"><i></i>CLAUDE FBA</a>
+  <a class="logo" href="#"><span class="disp">CLAUDE<b>FBA</b></span><small>SELLER OPS</small></a>
   <nav class="links">
-    <a href="#demo">DEMO</a><a href="#results">RESULTS</a><a href="#skills">SKILLS</a>
-    <a href="#safety">SAFETY</a><a href="#faq">FAQ</a>
+    <a href="#manifest">MANIFEST</a><a href="#results">RESULTS</a><a href="#demo">DEMO</a>
+    <a href="#skills">SKILLS</a><a href="#faq">FAQ</a><a href="setup.html">API KEYS</a>
   </nav>
-  <a class="gh-top" href="https://github.com/EbrahimElbagory/claude-fba" aria-label="GitHub">
-    <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-  </a>
+  <a class="gh-top" href="https://github.com/EbrahimElbagory/claude-fba">GITHUB ↗</a>
 </div></header>
 
-<section class="hero">
-  <!-- floating cursors -->
-  <div class="cur float" style="left:12%; top:24%; animation-delay:.3s,0s">
-    <svg class="arrow" viewBox="0 0 16 16"><path d="M2 1l4 13 2.5-5.5L14 6z" fill="var(--green)"/></svg><br>
-    <span class="tag" style="background:var(--green)">AUDITOR</span>
-  </div>
-  <div class="cur float" style="right:14%; top:20%; animation-delay:.55s,1.4s">
-    <svg class="arrow" viewBox="0 0 16 16"><path d="M2 1l4 13 2.5-5.5L14 6z" fill="var(--blue)"/></svg><br>
-    <span class="tag" style="background:var(--blue)">REVIEWER</span>
-  </div>
-  <div class="cur float" style="left:20%; top:64%; animation-delay:.8s,2.2s">
-    <svg class="arrow" viewBox="0 0 16 16"><path d="M2 1l4 13 2.5-5.5L14 6z" fill="var(--orange)"/></svg><br>
-    <span class="tag" style="background:var(--orange)">RANKER</span>
-  </div>
-  <div class="cur float" style="right:11%; top:58%; animation-delay:1.05s,.8s">
-    <svg class="arrow" viewBox="0 0 16 16"><path d="M2 1l4 13 2.5-5.5L14 6z" fill="var(--violet)"/></svg><br>
-    <span class="tag" style="background:var(--violet)">TRACKER</span>
-  </div>
-
-  <div class="wrap">
-    <div class="chip-ver"><b>v0.1</b> <span>//</span> LATEST <span>//</span> FREE <span>//</span> OPEN SOURCE <span>//</span> MIT</div>
-    <h1>Your seller ops team<span class="l2">in the terminal.</span></h1>
-    <p class="desc">Claude FBA is a free, open-source Amazon seller toolkit for <b>Claude Code</b>:
-    5 skills, a zero-dependency SP-API client, and the Helium 10 MCP wired into one
-    <b>audit → fix → measure</b> loop. Clone it, connect your store, say <b>"audit my store"</b>.</p>
-    <p class="byline">By <a href="https://github.com/EbrahimElbagory">Ebrahim Elbagory</a> // Built on a live store // Last updated July 22, 2026</p>
-
-    <div class="install">
-      <span class="dollar">$</span>
-      <code id="cmd">git clone https://github.com/EbrahimElbagory/claude-fba.git</code>
-      <button id="copy">COPY</button>
+<section class="hero"><div class="wrap">
+  <div class="label">
+    <i class="tick tl"></i><i class="tick tr"></i><i class="tick bl"></i><i class="tick br"></i>
+    <div class="lab-row">
+      <div class="lab-cell"><span class="f">Ship from</span><span class="v">YOUR TERMINAL</span></div>
+      <div class="lab-cell"><span class="f">Ship to</span><span class="v">YOUR AMAZON STORE</span></div>
+      <div class="lab-cell"><span class="f">Carrier</span><span class="v o">CLAUDE CODE</span></div>
+      <div class="lab-cell"><span class="f">Contents</span><span class="v">4 SKILLS · 0 PIP INSTALLS · MIT</span></div>
     </div>
-    <div class="foot-note">Works on macOS, Linux, Windows // Python 3.9+ stdlib only // No pip installs</div>
-    <div class="foot-note">Official APIs only: Amazon SP-API (yours) + Helium 10 MCP</div>
-
-    <div class="hero-cta">
-      <a class="gh-pill" href="https://github.com/EbrahimElbagory/claude-fba">
-        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-        <em>★</em> STAR ON GITHUB
-      </a>
-      <a class="tx" href="#demo">SEE DEMO</a>
-      <a class="tx" href="#results">RESULTS</a>
-      <a class="tx" href="https://github.com/EbrahimElbagory/claude-fba/blob/main/docs/SETUP.md">DOCS</a>
+    <div class="lab-main">
+      <div class="stamp">Live store<br>handle with approval<small>read-only by default</small></div>
+      <h1 class="disp">Your seller<br>ops team<span>in the terminal.</span></h1>
+      <p class="sub">Claude FBA is a free, open-source Amazon seller toolkit for <b>Claude Code</b> —
+      four skills, a zero-dependency SP-API client, and the Helium 10 MCP wired into one
+      <b>audit → fix → measure</b> loop. Clone it, connect your store, say <b>"audit my store"</b>.</p>
+      <p class="byline">By <a href="https://github.com/EbrahimElbagory">Ebrahim Elbagory</a> // built on a live store // last updated July 22, 2026</p>
     </div>
-  </div>
-</section>
-
-<section id="results" class="center"><div class="wrap">
-  <div class="sh rv">Day one on a real store</div>
-  <h2 class="rv">Evidence, not promises.</h2>
-  <p class="lede rv">Everything below happened in one working session, on a live store doing six figures a year, through official APIs.</p>
-  <div class="stats rv">
-    <div class="stat"><div class="n">437</div><div class="l"><b>Review requests · day one</b>Eligible orders that had been sitting unsolicited, backfilled via the official Solicitations API — then automated daily.</div></div>
-    <div class="stat"><div class="n">~25</div><div class="l"><b>API calls · full audit</b>19 ASINs: listing quality, keyword ranks, BSR trends, review health, inventory cover.</div></div>
-    <div class="stat"><div class="n">$3.5–9K</div><div class="l"><b>Est. revenue leaks found</b>Empty backend keywords, unsolicited reviews, one broken listing. All process, zero budget.</div></div>
-    <div class="stat"><div class="n">2.7%</div><div class="l"><b>The conversion smoking gun</b>One listing's bullets described a different product. Siblings converted at 10–14%.</div></div>
+    <div class="lab-foot">
+      <div class="lab-install">
+        <span class="f">Installation</span>
+        <div class="install">
+          <code id="cmd">git clone https://github.com/EbrahimElbagory/claude-fba.git</code>
+          <button id="copy">COPY</button>
+        </div>
+        <div class="reqs">macOS · Linux · Windows // Python 3.9+ stdlib // <a href="setup.html" style="color:var(--orange)">GET YOUR API KEYS →</a></div>
+      </div>
+      <div class="lab-code">
+        <div class="barcode"></div>
+        <div class="num">C L A U D E - F B A - V 0 . 1</div>
+      </div>
+    </div>
   </div>
 </div></section>
 
-<section id="demo" class="center"><div class="wrap">
-  <div class="sh rv">What it looks like</div>
-  <h2 class="rv" style="margin-bottom:52px">One prompt. Whole store.</h2>
+<div class="ticker" aria-hidden="true"><div class="ticker-inner">
+  <span><i>▸</i>437 REVIEW REQUESTS SENT — DAY ONE</span>
+  <span><i>▸</i>4 LISTINGS PATCHED VIA API</span>
+  <span><i>▸</i>WRONG-PRODUCT BULLETS DETECTED ON ASIN #4</span>
+  <span><i>▸</i>BACKEND KEYWORDS: EMPTY → FILLED</span>
+  <span><i>▸</i>BASELINE CAPTURED — MEASURE, DON'T GUESS</span>
+  <span><i>▸</i>DAILY CRON: SOLICIT REVIEWS 10:00</span>
+  <span><i>▸</i>WEEKLY CRON: IMPACT SNAPSHOT MON 09:00</span>
+  <span><i>▸</i>437 REVIEW REQUESTS SENT — DAY ONE</span>
+  <span><i>▸</i>4 LISTINGS PATCHED VIA API</span>
+  <span><i>▸</i>WRONG-PRODUCT BULLETS DETECTED ON ASIN #4</span>
+  <span><i>▸</i>BACKEND KEYWORDS: EMPTY → FILLED</span>
+  <span><i>▸</i>BASELINE CAPTURED — MEASURE, DON'T GUESS</span>
+  <span><i>▸</i>DAILY CRON: SOLICIT REVIEWS 10:00</span>
+  <span><i>▸</i>WEEKLY CRON: IMPACT SNAPSHOT MON 09:00</span>
+</div></div>
+
+<section id="results"><div class="wrap">
+  <div class="field-tag rv"><i></i><span>Field 01 — Findings report</span></div>
+  <h2 class="disp rv">Evidence, not promises.</h2>
+  <p class="lede rv">One working session. One live store doing six figures a year. Official APIs only. Itemized:</p>
+  <div class="receipt rv"><div class="receipt-in">
+    <div class="receipt-head"><span>Findings — audit #001</span><span>2026-07-22</span></div>
+    <div class="rrow"><span class="k">Review requests sent, day one</span><span class="dots"></span><span class="amt">437</span>
+      <span class="note">Eligible orders sitting unsolicited — backfilled via Amazon's official Solicitations API, then automated daily.</span></div>
+    <div class="rrow"><span class="k">API calls for a full 19-ASIN audit</span><span class="dots"></span><span class="amt">~25</span>
+      <span class="note">Listing quality, keyword ranks, BSR trends, review health, inventory cover.</span></div>
+    <div class="rrow"><span class="k">Estimated annual revenue leaks found</span><span class="dots"></span><span class="amt">$3.5–9K</span>
+      <span class="note">Empty backend keywords, forgone reviews, one broken listing. All process failures — zero budget required to fix.</span></div>
+    <div class="rrow"><span class="k">The conversion smoking gun</span><span class="dots"></span><span class="amt">2.7%</span>
+      <span class="note">One listing's bullets described a different product. Sibling listings converted at 10–14%. No human had re-read it in months.</span></div>
+    <div class="receipt-foot"><span>*** Thank you for auditing ***</span><span>Keep this receipt</span></div>
+  </div></div>
+</div></section>
+
+<hr class="perf">
+
+<section id="demo"><div class="wrap">
+  <div class="field-tag rv"><i></i><span>Field 02 — Live session</span></div>
+  <h2 class="disp rv">One prompt. Whole store.</h2>
+  <p class="lede rv">This is the actual shape of the session that produced the receipt above.</p>
   <div class="term rv">
-    <div class="term-head"><i></i><i></i><i></i><span>claude — ~/claude-fba</span></div>
+    <div class="term-head"><i style="background:#e0574f"></i><i style="background:#e2a53a"></i><i style="background:#79c98b"></i><span>claude — ~/claude-fba</span></div>
     <div class="term-body" id="termbody">
       <div class="tline u">audit my store</div>
       <div class="tline c">Checking Helium 10 quota… 975/1000 calls left. Pulling catalog from SP-API…</div>
@@ -272,49 +326,68 @@ footer nav a{color:var(--dim)} footer nav a:hover{color:var(--orange)}
   </div>
 </div></section>
 
-<section id="how" class="center"><div class="wrap">
-  <div class="sh rv">How it works</div>
-  <h2 class="rv" style="margin-bottom:52px">Two data planes. One brain. A cron.</h2>
+<hr class="perf">
+
+<section id="how"><div class="wrap">
+  <div class="field-tag rv"><i></i><span>Field 03 — Routing</span></div>
+  <h2 class="disp rv">Two data planes. One brain. A cron.</h2>
+  <p class="lede rv">The market layer needs a paid Helium 10 plan (their official MCP). The store layer runs on a free
+  self-authorized SP-API app you create once in ~30 minutes. <a href="setup.html" style="color:var(--orange)">SETUP GUIDE →</a></p>
   <pre class="arch rv">
-<b>CLAUDE CODE</b> ──┬── <b>HELIUM 10 MCP</b>   <i>market layer</i>   keyword volume · ranks · LQS · CPR · competitors
-              ├── <b>SP-API (YOURS)</b>  <i>store layer</i>    listings · orders · solicitations · reports
-              └── <b>LAUNCHD / CRON</b>  <i>persistence</i>    daily review requests · weekly impact snapshots
+<b>CLAUDE CODE</b> ──┬── <b>HELIUM 10 MCP</b>    <i>market layer</i>   keyword volume · ranks · LQS · CPR · competitors
+              ├── <b>SP-API (YOURS)</b>   <i>store layer</i>    listings · orders · solicitations · reports
+              └── <b>LAUNCHD / CRON</b>   <i>persistence</i>    daily review requests · weekly impact snapshots
 
-  skills/ → .claude/skills/        scripts/ = stdlib python · your creds · your machine</pre>
-  <p class="lede rv" style="margin:44px auto 0">The market layer needs a paid Helium 10 plan (their official MCP). Everything on the
-  store layer runs on a free self-authorized SP-API app you create once in ~30 minutes.
-  <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/docs/SETUP.md" style="color:var(--orange)">SETUP GUIDE →</a></p>
+  skills/ → .claude/skills/         scripts/ = stdlib python · your creds · your machine</pre>
 </div></section>
 
-<section id="skills" class="center"><div class="wrap">
-  <div class="sh rv">The skills</div>
-  <h2 class="rv" style="margin-bottom:52px">Five skills. One loop.</h2>
-  <div class="cards rv" style="text-align:left">
-    <div class="card"><div class="k">store-audit</div><p>Whole-catalog audit: 13-point listing quality, keyword coverage and ranks, BSR trends, review health, days-of-cover — diffed against saved baselines so trends aren't vibes.</p><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/store-audit/SKILL.md">Read the skill →</a></div>
-    <div class="card"><div class="k">review-automation</div><p>Backfills a review request for every eligible order via Amazon's official Solicitations API, then keeps a daily job running. Idempotent by construction.</p><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/review-automation/SKILL.md">Read the skill →</a></div>
-    <div class="card"><div class="k">listing-guard</div><p>Live listing edits with a harness: schema check → draft → your approval → backup → PATCH → verify. Rollback is one command.</p><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/listing-guard/SKILL.md">Read the skill →</a></div>
-    <div class="card"><div class="k">impact-tracker</div><p>Baseline before you touch anything; weekly per-ASIN sessions, conversion, and revenue snapshots after. Conversion tells you what worked before rank does.</p><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/impact-tracker/SKILL.md">Read the skill →</a></div>
-    <div class="card"><div class="k">brand-guard</div><p>Do you actually own your brand? Verifies Brand Registry roles, connected seller accounts, and the USPTO record. Saves acquisitions from nasty surprises.</p><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/brand-guard/SKILL.md">Read the skill →</a></div>
-    <div class="card"><div class="k">scripts/</div><p>The plumbing: a ~300-line stdlib SP-API client (LWA-only, retry/backoff), review solicitation, weekly tracking, Ads API auth. Python 3.9+, zero pip installs.</p><a href="https://github.com/EbrahimElbagory/claude-fba/tree/main/scripts">Browse →</a></div>
+<hr class="perf">
+
+<section id="skills"><div class="wrap">
+  <div class="field-tag rv"><i></i><span>Field 04 — Contents (4)</span></div>
+  <h2 class="disp rv">Four skills. One loop.</h2>
+  <p class="lede rv">Each one is a SKILL.md you drop into .claude/skills/ — carrying the hard-won gotchas, not just the happy path.</p>
+  <div class="cards">
+    <div class="card rv"><div class="head"><span class="k">Store-Audit</span><span class="no">SKU 01</span></div>
+      <p>Whole-catalog audit: 13-point listing quality, keyword coverage and ranks, BSR trends, review health, days-of-cover — diffed against saved baselines so trends aren't vibes.</p>
+      <div class="foot"><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/store-audit/SKILL.md">Read the skill →</a><div class="mini barcode"></div></div></div>
+    <div class="card rv"><div class="head"><span class="k">Review-Automation</span><span class="no">SKU 02</span></div>
+      <p>Backfills a review request for every eligible order via Amazon's official Solicitations API, then keeps a daily job running. Idempotent by construction.</p>
+      <div class="foot"><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/review-automation/SKILL.md">Read the skill →</a><div class="mini barcode"></div></div></div>
+    <div class="card rv"><div class="head"><span class="k">Listing-Guard</span><span class="no">SKU 03</span></div>
+      <p>Live listing edits with a harness: schema check → draft → your approval → backup → PATCH → verify. Rollback is one command.</p>
+      <div class="foot"><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/listing-guard/SKILL.md">Read the skill →</a><div class="mini barcode"></div></div></div>
+    <div class="card rv"><div class="head"><span class="k">Impact-Tracker</span><span class="no">SKU 04</span></div>
+      <p>Baseline before you touch anything; weekly per-ASIN sessions, conversion, and revenue snapshots after. Conversion tells you what worked before rank does.</p>
+      <div class="foot"><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/impact-tracker/SKILL.md">Read the skill →</a><div class="mini barcode"></div></div></div>
+/div>
+    <div class="card rv"><div class="head"><span class="k">Scripts/</span><span class="no">PLUMBING</span></div>
+      <p>A ~300-line stdlib SP-API client (LWA-only, retry/backoff), review solicitation, weekly tracking, Ads API auth. Python 3.9+, zero pip installs.</p>
+      <div class="foot"><a href="https://github.com/EbrahimElbagory/claude-fba/tree/main/scripts">Browse →</a><div class="mini barcode"></div></div></div>
   </div>
 </div></section>
 
-<section id="safety" class="center"><div class="wrap">
-  <div class="sh rv">Live store, real money</div>
-  <h2 class="rv">The safety model is the feature.</h2>
-  <p class="lede rv">Letting an agent touch a revenue-producing store only works with hard rules. Non-negotiable in every skill:</p>
-  <div class="rules rv">
-    <div class="rule"><div class="no">1</div><div class="t"><b>Read-only by default</b><span>A full audit writes nothing. Most sessions never mutate anything.</span></div></div>
-    <div class="rule"><div class="no">2</div><div class="t"><b>Draft → human approval → execute</b><span>No buyer-visible change ships until you approve the exact copy in chat.</span></div></div>
-    <div class="rule"><div class="no">3</div><div class="t"><b>Backup before write, verify after</b><span>Pre-edit state saved per SKU; post-PATCH re-read checks for new errors. Rollback is one command.</span></div></div>
-    <div class="rule"><div class="no">4</div><div class="t"><b>Official APIs only</b><span>Your own SP-API app, Helium 10's own MCP. Nothing scraped, no ToS games.</span></div></div>
-    <div class="rule"><div class="no">5</div><div class="t"><b>Honest about limits</b><span>No API path for something? The skills say so and hand you a manual checklist — instead of pretending.</span></div></div>
+<hr class="perf">
+
+<section id="manifest"><div class="wrap">
+  <div class="field-tag rv"><i></i><span>Field 05 — Handling instructions</span></div>
+  <h2 class="disp rv">The safety model is the feature.</h2>
+  <p class="lede rv">Letting an agent touch a revenue-producing store only works with hard rules. Declared contents:</p>
+  <div class="manifest rv">
+    <div class="m-head"><span>Handling manifest</span><b>Live store — fragile</b></div>
+    <div class="mrow"><div class="box">☑</div><div class="t"><b>Read-only by default</b><span>A full audit writes nothing. Most sessions never mutate anything.</span></div></div>
+    <div class="mrow"><div class="box">☑</div><div class="t"><b>Draft → human approval → execute</b><span>No buyer-visible change ships until you approve the exact copy in chat.</span></div></div>
+    <div class="mrow"><div class="box">☑</div><div class="t"><b>Backup before write, verify after</b><span>Pre-edit state saved per SKU; post-PATCH re-read checks for new errors. Rollback is one command.</span></div></div>
+    <div class="mrow"><div class="box">☑</div><div class="t"><b>Official APIs only</b><span>Your own SP-API app, Helium 10's own MCP. Nothing scraped, no ToS games.</span></div></div>
+    <div class="mrow"><div class="box">☑</div><div class="t"><b>Honest about limits</b><span>No API path for something? The skills say so and hand you a manual checklist — instead of pretending.</span></div></div>
   </div>
 </div></section>
 
-<section id="faq" class="center"><div class="wrap">
-  <div class="sh rv">FAQ</div>
-  <h2 class="rv" style="margin-bottom:52px">Questions sellers actually ask.</h2>
+<hr class="perf">
+
+<section id="faq"><div class="wrap">
+  <div class="field-tag rv"><i></i><span>Field 06 — Declarations</span></div>
+  <h2 class="disp rv" style="margin-bottom:44px">Questions sellers actually ask.</h2>
   <div class="faq rv">
     <details><summary>Is this against Amazon's terms of service?</summary><p>No. It's your own store accessed through your own self-authorized SP-API app — the same official interface every seller tool uses. Review requests go through Amazon's Solicitations API, functionally identical to the "Request a Review" button in Seller Central. Nothing is scraped.</p></details>
     <details><summary>Do I need Helium 10?</summary><p>For the market layer (keyword volumes, ranks, listing quality scores, competitor intel) — yes, a paid plan; the audit uses their official MCP server. Everything SP-API-side works without it: review automation, listing edits, impact tracking, sales analytics.</p></details>
@@ -326,13 +399,16 @@ footer nav a{color:var(--dim)} footer nav a:hover{color:var(--orange)}
 </div></section>
 
 <footer><div class="wrap">
-  <div class="logo"><i></i>CLAUDE FBA</div>
-  <div class="by">By <b>Ebrahim Elbagory</b> — Amazon seller, builder. Ships on his own store first.</div>
+  <div class="by">By <b>Ebrahim Elbagory</b> — Amazon seller, builder.<br>Ships on his own store first.</div>
+  <div class="stack">
+    <div class="barcode orange"></div>
+    <div class="num">M I T · 2 0 2 6</div>
+  </div>
   <nav>
     <a href="https://github.com/EbrahimElbagory/claude-fba">GitHub</a>
     <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/docs/SETUP.md">Setup</a>
     <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/docs/SAFETY.md">Safety</a>
-    <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/LICENSE">MIT</a>
+    <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/LICENSE">License</a>
   </nav>
 </div></footer>
 

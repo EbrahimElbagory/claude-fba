@@ -44,7 +44,6 @@ other claude-fba skills with prioritized findings.
 - Copy/keyword fixes → **listing-guard** (draft → user approval → PATCH → backup).
 - Review velocity → **review-automation** (backfill + cron health check).
 - Measurement → **impact-tracker**.
-- Ownership/role hygiene → **brand-guard**.
 - Everything not API-executable (bullets on restricted product types, coupons,
   removal orders, tracker setup) → a dated manual-actions list for the user.
 
