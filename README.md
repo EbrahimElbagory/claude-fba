@@ -23,7 +23,7 @@ Claude Code (the brain)
  └── launchd/cron ───── keeps review requests + weekly tracking running without you
 ```
 
-Four skills orchestrate it:
+Five skills orchestrate it:
 
 | Skill | What it does |
 |---|---|
@@ -31,6 +31,7 @@ Four skills orchestrate it:
 | [review-automation](skills/review-automation/SKILL.md) | Backfill every eligible review request + daily job |
 | [listing-guard](skills/listing-guard/SKILL.md) | Live listing edits with draft → approval → PATCH → rollback |
 | [impact-tracker](skills/impact-tracker/SKILL.md) | Baseline → weekly snapshots → attribution |
+| [keyword-research](skills/keyword-research/SKILL.md) | Competitor reverse-search + gap analysis → CPR-prioritized keyword map |
 
 ## Install
 
