@@ -27,11 +27,11 @@ Five skills orchestrate it:
 
 | Skill | What it does |
 |---|---|
-| [store-audit](skills/store-audit/SKILL.md) | Whole-catalog audit + diff vs saved baselines |
-| [review-automation](skills/review-automation/SKILL.md) | Backfill every eligible review request + daily job |
-| [listing-guard](skills/listing-guard/SKILL.md) | Live listing edits with draft → approval → PATCH → rollback |
-| [impact-tracker](skills/impact-tracker/SKILL.md) | Baseline → weekly snapshots → attribution |
-| [keyword-research](skills/keyword-research/SKILL.md) | Competitor reverse-search + gap analysis → CPR-prioritized keyword map |
+| [store-audit](skills/store-audit/SKILL.md) | Full checkup of every listing (quality, keywords, rank, reviews, stock) diffed against the last audit |
+| [review-automation](skills/review-automation/SKILL.md) | Sends Amazon's official review request for every eligible order, then daily forever |
+| [listing-guard](skills/listing-guard/SKILL.md) | Edits live listing text safely: you approve exact wording, old version saved for one-command undo |
+| [impact-tracker](skills/impact-tracker/SKILL.md) | Baseline before changes, weekly traffic/conversion/revenue after — proof instead of guessing |
+| [keyword-research](skills/keyword-research/SKILL.md) | What competitors rank for that you don't, sorted by how cheap each keyword is to win |
 
 ## Install
 

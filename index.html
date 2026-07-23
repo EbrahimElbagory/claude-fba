@@ -362,23 +362,23 @@ footer nav a{color:var(--dim)} footer nav a:hover{color:var(--orange)}
   <p class="lede rv">Each one is a SKILL.md you drop into .claude/skills/ — carrying the hard-won gotchas, not just the happy path.</p>
   <div class="cards">
     <div class="card rv"><div class="head"><span class="k">Store-Audit</span><span class="no">SKU 01</span></div>
-      <p>Whole-catalog audit: 13-point listing quality, keyword coverage and ranks, BSR trends, review health, days-of-cover — diffed against saved baselines so trends aren't vibes.</p>
+      <p>A full checkup of every listing you own: content quality score, which keywords you rank for and where, sales-rank trend, review count and rating, and how many months of stock you're sitting on. Each audit is compared to the last one, so you see exactly what moved.</p>
       <div class="foot"><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/store-audit/SKILL.md">Read the skill →</a><div class="mini barcode"></div></div></div>
     <div class="card rv"><div class="head"><span class="k">Review-Automation</span><span class="no">SKU 02</span></div>
-      <p>Backfills a review request for every eligible order via Amazon's official Solicitations API, then keeps a daily job running. Idempotent by construction.</p>
+      <p>Amazon lets you request one review per order, between day 5 and 30. This sends that official request for every order you've missed (my catch-up was 437 orders), then runs automatically every morning so no order is ever missed again. Can't double-send — Amazon blocks repeats and the script keeps its own log.</p>
       <div class="foot"><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/review-automation/SKILL.md">Read the skill →</a><div class="mini barcode"></div></div></div>
     <div class="card rv"><div class="head"><span class="k">Listing-Guard</span><span class="no">SKU 03</span></div>
-      <p>Live listing edits with a harness: schema check → draft → your approval → backup → PATCH → verify. Rollback is one command.</p>
+      <p>Edits your live listing text (titles, backend search terms) through Amazon's API — safely. It checks what Amazon allows editing on your product type, drafts the copy, shows you before/after, and changes nothing until you approve the exact wording. The old version is saved first, so undo is one command, and every change is verified after.</p>
       <div class="foot"><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/listing-guard/SKILL.md">Read the skill →</a><div class="mini barcode"></div></div></div>
     <div class="card rv"><div class="head"><span class="k">Impact-Tracker</span><span class="no">SKU 04</span></div>
-      <p>Baseline before you touch anything; weekly per-ASIN sessions, conversion, and revenue snapshots after. Conversion tells you what worked before rank does.</p>
+      <p>Proves whether changes actually worked. Records every number BEFORE you touch anything, then logs traffic, conversion rate, units, and revenue per product every week. In 30 days you're comparing against a baseline instead of guessing — conversion moves within days, so you know early.</p>
       <div class="foot"><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/impact-tracker/SKILL.md">Read the skill →</a><div class="mini barcode"></div></div></div>
 /div>
     <div class="card rv"><div class="head"><span class="k">Keyword-Research</span><span class="no">SKU 05</span></div>
-      <p>Reverse-search competitors, expand seeds, find coverage gaps, and prioritize by CPR into a keyword map — primaries for titles, backend terms, and a cheap-ranking-push list.</p>
+      <p>Finds the keywords worth going after: pulls what competitors rank for that you don't, expands seed terms into related searches, then sorts candidates by how cheap they are to win. Ends with a simple map — these words go in your title, these in bullets, these in backend, these into ads.</p>
       <div class="foot"><a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/keyword-research/SKILL.md">Read the skill →</a><div class="mini barcode"></div></div></div>
     <div class="card rv"><div class="head"><span class="k">Scripts/</span><span class="no">PLUMBING</span></div>
-      <p>A ~300-line stdlib SP-API client (LWA-only, retry/backoff), review solicitation, weekly tracking, Ads API auth. Python 3.9+, zero pip installs.</p>
+      <p>The plumbing under the skills: four plain-Python files with zero dependencies to install. A small client that talks to Amazon's Seller API with just your keys, plus ready-to-run scripts for review requests, weekly tracking, and Ads API login. The cron jobs run these — and you can run them yourself, no Claude needed.</p>
       <div class="foot"><a href="https://github.com/EbrahimElbagory/claude-fba/tree/main/scripts">Browse →</a><div class="mini barcode"></div></div></div>
   </div>
 </div></section>
