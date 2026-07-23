@@ -18,14 +18,14 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg); color:var(--ink); font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:15px; line-height:1.7; -webkit-font-smoothing:antialiased}
+body{background:var(--bg); color:var(--ink); font-family:'IBM Plex Mono',ui-monospace,monospace; font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased}
 a{color:inherit; text-decoration-color:rgba(232,228,218,.35); text-underline-offset:3px}
 a:hover{color:var(--accent); text-decoration-color:var(--accent)}
 ::selection{background:var(--accent); color:var(--bg)}
-.wrap{max-width:900px; margin:0 auto; padding:0 32px}
 .kicker{font-size:11px; font-weight:600; letter-spacing:.16em; color:var(--accent); margin-bottom:14px}
+h2{font-family:'Archivo',sans-serif; font-size:40px; font-weight:800; line-height:1.02; text-transform:uppercase; letter-spacing:-.01em; margin:0 0 18px}
 
-/* header (matches landing) */
+/* header — identical to landing */
 header.top{display:flex; align-items:center; justify-content:space-between; gap:24px; padding:14px 32px; border-bottom:1px solid var(--line); position:sticky; top:0; background:rgba(11,10,8,.92); backdrop-filter:blur(8px); z-index:50}
 header.top .logo{font-size:14px; font-weight:700; letter-spacing:.14em; text-decoration:none}
 header.top .logo span{color:var(--accent)}
@@ -38,58 +38,81 @@ header.top nav a{text-decoration:none}
 .gh-btn:hover{background:var(--accent); color:var(--bg)}
 @media (max-width:820px){ header.top nav{display:none} }
 
-/* hero */
-.hero{padding:84px 32px 8px; max-width:900px; margin:0 auto}
-h1{font-family:'Archivo',sans-serif; font-size:clamp(40px,6vw,76px); font-weight:800; line-height:.98; letter-spacing:-.015em; text-transform:uppercase; margin:0 0 26px; text-wrap:balance}
-h1 span{color:var(--accent)}
-.lede{font-size:15px; color:var(--body); max-width:64ch; margin:0 0 8px}
-.lede strong{color:var(--ink)}
-.chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:26px}
+/* hero — same skeleton as landing hero */
+.hero{padding:84px 32px 64px; max-width:1180px; margin:0 auto}
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px}
 .chips span{font-size:10px; font-weight:600; letter-spacing:.16em; border:1px solid var(--line2); padding:6px 12px; color:var(--muted)}
-.chips span b{color:var(--accent); font-weight:600}
+.chips span.live{border-color:var(--accent); color:var(--accent)}
+.ver{font-size:11px; letter-spacing:.14em; color:var(--dim); margin-bottom:20px}
+h1{font-family:'Archivo',sans-serif; font-size:clamp(44px,6.8vw,88px); font-weight:800; line-height:.98; letter-spacing:-.015em; text-transform:uppercase; margin:0; max-width:18ch; text-wrap:balance}
+h1 span{color:var(--accent)}
+.hero-grid{display:grid; grid-template-columns:minmax(320px,1.15fr) minmax(300px,1fr); gap:48px; margin-top:40px; align-items:end}
+@media (max-width:880px){ .hero-grid{grid-template-columns:1fr} }
+.hero-grid p{font-size:16px; line-height:1.7; max-width:58ch; color:var(--body)}
+.hero-grid p strong{color:var(--ink)}
+.install-col{display:flex; flex-direction:column; gap:10px}
+.install{display:flex; align-items:stretch; border:1px solid var(--line2); background:var(--panel)}
+.install .d{display:flex; align-items:center; padding:0 0 0 14px; color:var(--accent); font-weight:700}
+.install code{font-size:12px; padding:14px 12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1; color:var(--body)}
+.reqs{font-size:10.5px; letter-spacing:.08em; color:var(--dim)}
 
-/* steps */
-.step{display:grid; grid-template-columns:88px 1fr; border:1px solid var(--line2); background:var(--panel); margin-top:30px}
-.step .no{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; border-right:1px solid var(--line2); padding:20px 0}
-.step .no b{font-family:'Archivo',sans-serif; font-size:38px; font-weight:800; color:var(--accent); line-height:1}
-.step .no s{font-size:9px; letter-spacing:.24em; color:var(--dim); text-decoration:none; text-transform:uppercase}
-.step .body{padding:26px 30px 28px}
-.step h2{font-family:'Archivo',sans-serif; font-size:24px; font-weight:800; text-transform:uppercase; letter-spacing:-.005em; color:var(--ink); margin:0 0 12px}
-.step p{font-size:13px; color:var(--muted); margin-bottom:12px}
-.step p strong, .step li strong{color:var(--ink); font-weight:600}
-.step ol, .step ul{margin:0 0 12px 20px; font-size:13px; color:var(--muted)}
-.step li{margin-bottom:8px}
-p code, li code{background:var(--bg); border:1px solid var(--line3); padding:1px 7px; font-size:12px; color:var(--accent)}
-.cmd{display:flex; border:1px solid var(--line2); background:var(--bg); margin:14px 0}
-.cmd code{flex:1; padding:13px 16px; font-size:12.5px; color:var(--body); overflow-x:auto; white-space:pre}
+/* sections — landing vocabulary */
+section.blk{padding:84px 32px; max-width:1180px; margin:0 auto}
+.split{display:grid; grid-template-columns:minmax(280px,1fr) minmax(400px,1.6fr); gap:56px; align-items:start}
+@media (max-width:880px){ .split{grid-template-columns:1fr} }
+.split .lede{font-size:15px; color:var(--body); margin:0 0 20px}
+.split .lede strong{color:var(--ink)}
+
+/* steps — the safety "rules" list pattern */
+.steps{border-top:1px solid var(--line2)}
+.stp{display:grid; grid-template-columns:64px 1fr; gap:16px; padding:24px 0; border-bottom:1px solid var(--line3); align-items:start}
+.stp .no{font-family:'Archivo',sans-serif; font-size:26px; font-weight:800; color:var(--accent); line-height:1.1}
+.stp .t{font-size:15px; font-weight:700; letter-spacing:.04em; margin-bottom:6px; text-transform:uppercase}
+.stp p{margin:0 0 10px; font-size:13px; color:var(--muted)}
+.stp p strong, .stp li strong{color:var(--ink)}
+.stp ol, .stp ul{margin:0 0 10px 20px; font-size:13px; color:var(--muted)}
+.stp li{margin-bottom:6px}
+p code, li code{background:var(--panel); border:1px solid var(--line3); padding:1px 7px; font-size:12px; color:var(--accent)}
+.cmd{display:flex; border:1px solid var(--line2); background:var(--panel); margin:10px 0; max-width:560px}
+.cmd code{flex:1; padding:12px 16px; font-size:12.5px; color:var(--body); overflow-x:auto; white-space:pre}
 .cmd code::before{content:"$ "; color:var(--accent); font-weight:700}
-.callout{border-left:2px solid var(--accent); background:var(--panel2); padding:14px 18px; font-size:12.5px; color:var(--muted); margin:14px 0}
-.callout b{color:var(--accent); font-weight:600; letter-spacing:.12em; text-transform:uppercase; font-size:10px; display:block; margin-bottom:6px}
-.roles{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); margin:14px 0}
-.roles div{background:var(--bg); padding:12px 14px; font-size:11.5px; color:var(--muted)}
-.roles div b{display:block; color:var(--ink); font-weight:600; font-size:12px; margin-bottom:2px}
-.roles div s{text-decoration:none; color:var(--green); font-size:9.5px; letter-spacing:.14em; font-weight:600}
+.note{font-size:12px; color:var(--dim); margin:10px 0 0}
+.note b{color:var(--accent); font-weight:600; letter-spacing:.12em; text-transform:uppercase; font-size:10px; margin-right:8px}
 
-/* troubleshooting */
-table.trouble{width:100%; border-collapse:collapse; border:1px solid var(--line2); background:var(--panel); margin-top:34px; font-size:12.5px}
-table.trouble th{font-size:10px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); text-align:left; padding:14px 20px; border-bottom:1px solid var(--line2)}
-table.trouble td{padding:16px 20px; border-bottom:1px solid var(--line3); vertical-align:top; color:var(--muted)}
-table.trouble td:first-child{color:var(--ink); white-space:nowrap}
-table.trouble td strong{color:var(--ink)}
-table.trouble tr:last-child td{border-bottom:none}
+/* roles — the wiring grid3 pattern */
+.grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin:14px 0 4px}
+@media (max-width:880px){ .grid3{grid-template-columns:1fr} }
+.wire{padding:18px 20px 20px; background:var(--bg)}
+.wire .tag{font-size:10px; font-weight:700; letter-spacing:.14em; color:var(--green); margin-bottom:8px}
+.wire .tag.opt{color:var(--dim)}
+.wire .nm{font-family:'Archivo',sans-serif; font-size:16px; font-weight:700; margin-bottom:4px; text-transform:uppercase}
+.wire p{margin:0; font-size:12px; color:var(--muted)}
 
-/* done */
-.done{border:1px solid var(--accent); padding:34px; margin:56px 0 0; text-align:center; background:var(--panel2)}
-.done .h{font-family:'Archivo',sans-serif; font-size:30px; font-weight:800; text-transform:uppercase; color:var(--accent); margin-bottom:10px}
-.done p{font-size:13px; color:var(--muted); max-width:56ch; margin:0 auto 20px}
-.done p strong{color:var(--ink)}
-.done a.btn{display:inline-block; background:var(--ink); color:var(--bg); font-weight:700; font-size:11px; letter-spacing:.12em; padding:14px 22px; text-decoration:none; text-transform:uppercase}
-.done a.btn:hover{background:var(--accent)}
+/* troubleshooting — the scoreboard board pattern */
+.board{border:1px solid var(--line2); background:var(--panel)}
+.board .hd, .board .row{display:grid; grid-template-columns:1fr 1.8fr; padding:12px 20px}
+.board .hd{font-size:10px; font-weight:600; letter-spacing:.12em; border-bottom:1px solid var(--line2); color:var(--dim)}
+.board .row{padding:15px 20px; border-bottom:1px solid var(--line3)}
+.board .row:last-child{border-bottom:none}
+.board .row .m{font-size:13px; color:var(--ink)}
+.board .row .v{font-size:12.5px; color:var(--muted)}
+.board .row .v strong{color:var(--ink)}
 
-footer{border-top:1px solid var(--line); margin-top:84px; padding:36px 32px 44px; background:var(--bg2)}
-footer .in{max-width:900px; margin:0 auto; display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; font-size:10px; letter-spacing:.16em; color:var(--faint)}
-footer a{text-decoration:none; color:var(--dim)}
-@media (max-width:640px){ .step{grid-template-columns:1fr} .step .no{flex-direction:row; border-right:none; border-bottom:1px solid var(--line2); padding:12px} }
+/* footer — the pitch pattern */
+footer{border-top:1px solid var(--line); padding:76px 32px 36px; background:var(--bg2)}
+footer .in{max-width:1180px; margin:0 auto}
+.pitch-row{display:flex; justify-content:space-between; align-items:flex-end; gap:40px; flex-wrap:wrap; padding-bottom:44px; border-bottom:1px solid var(--line)}
+.pitch{font-family:'Archivo',sans-serif; font-size:clamp(32px,4vw,52px); font-weight:800; line-height:1; text-transform:uppercase; max-width:22ch; margin-bottom:24px}
+.pitch span{color:var(--accent)}
+.f-btns{display:flex; gap:12px; flex-wrap:wrap}
+.f-btn{font-size:11px; font-weight:700; letter-spacing:.12em; text-decoration:none; padding:14px 20px; display:inline-block}
+.f-btn.solid{background:var(--ink); color:var(--bg)}
+.f-btn.solid:hover{background:var(--accent); color:var(--bg)}
+.f-btn.line{border:1px solid var(--line2); color:var(--ink)}
+.f-btn.line:hover{border-color:var(--accent); color:var(--accent)}
+.f-links{font-size:12px; line-height:2.2; color:var(--muted); display:flex; flex-direction:column; letter-spacing:.08em}
+.f-links a{text-decoration:none}
+.credits{display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; font-size:10px; letter-spacing:.16em; color:var(--faint); padding-top:20px}
 </style>
 </head>
 <body>
@@ -111,123 +134,122 @@ footer a{text-decoration:none; color:var(--dim)}
 </header>
 
 <section class="hero">
-  <div class="kicker">// 00 — API CREDENTIALS</div>
-  <h1>Get your Amazon <span>API keys.</span></h1>
-  <p class="lede">Claude FBA talks to Amazon through <strong>your own private SP-API app</strong> —
-  no third-party service ever sees your data, and credentials never leave your machine. Creating the
-  app is free, needs no approval from Amazon beyond your own seller account, and takes about 30
-  minutes once.</p>
   <div class="chips">
-    <span>TIME: <b>~30 MIN</b></span><span>COST: <b>$0</b></span>
-    <span>REQUIRES: <b>PRO SELLER ACCOUNT</b></span><span>APPROVAL WAIT: <b>NONE*</b></span>
+    <span>~30 MIN</span><span>$0</span><span>PRO SELLER ACCOUNT</span>
+    <span class="live">NO APPROVAL WAIT*</span>
+  </div>
+  <div class="ver">SETUP // ONE TIME // YOUR OWN PRIVATE APP</div>
+  <h1>Get your Amazon <span>API keys.</span></h1>
+  <div class="hero-grid">
+    <p>Claude FBA talks to Amazon through <strong>your own private SP-API app</strong> — no third-party
+    service ever sees your data, and credentials never leave your machine. Creating the app is free,
+    needs no approval beyond your own seller account, and takes about 30 minutes once.</p>
+    <div class="install-col">
+      <div class="install"><span class="d">$</span><code>python3 scripts/sp_api.py&nbsp;&nbsp;# the verify step, once keys are in</code></div>
+      <div class="reqs">*PRIVATE DEVELOPER PROFILES ARE USUALLY APPROVED INSTANTLY — SEE STEP 01</div>
+    </div>
   </div>
 </section>
 
-<div class="wrap">
-
-  <div class="step">
-    <div class="no"><b>01</b><s>Register</s></div>
-    <div class="body">
-      <h2>Become a developer (your own account)</h2>
-      <p>In Seller Central go to <strong>Apps &amp; Services → Develop Apps</strong>. If you've never used it,
-      Amazon asks you to complete a <strong>Developer Profile</strong> first: choose <strong>Private developer</strong>
-      (you're building for your own business), answer the data-use questionnaire honestly
-      (analytics/automation for your own store; you're not touching customer PII), and submit.</p>
-      <div class="callout"><b>*The one wait that can happen</b>Private developer profiles are usually approved
-      instantly or within a day or two. If yours goes to review, everything below waits on it — do this step
-      first, today.</div>
+<section class="blk" style="padding-top:0">
+  <div class="kicker">// 01 — THE STEPS</div>
+  <div class="split">
+    <div>
+      <h2>Six steps. One time.</h2>
+      <p class="lede">Everything happens inside your own Seller Central — the same place you already
+      log into. Nothing here is granted to anyone but <strong>you</strong>.</p>
+    </div>
+    <div class="steps">
+      <div class="stp"><div class="no">01</div><div>
+        <div class="t">Become a developer (your own account)</div>
+        <p>Seller Central → <strong>Apps &amp; Services → Develop Apps</strong>. First time, Amazon asks
+        for a <strong>Developer Profile</strong>: choose <strong>Private developer</strong> (you're building
+        for your own business), answer the data-use questionnaire honestly, submit.</p>
+        <p class="note"><b>*The one wait</b>Profiles are usually approved instantly or within a day or two.
+        If yours goes to review, everything below waits on it — do this step first, today.</p>
+      </div></div>
+      <div class="stp"><div class="no">02</div><div>
+        <div class="t">Add a new app client</div>
+        <p>Develop Apps → <strong>Add new app client</strong>. Name it anything (<code>claude-fba</code> works),
+        API type <strong>SP-API</strong>, and check these roles:</p>
+        <div class="grid3">
+          <div class="wire"><div class="tag">[REQUIRED]</div><div class="nm">Product Listing</div><p>read + patch listings, A+ read</p></div>
+          <div class="wire"><div class="tag">[REQUIRED]</div><div class="nm">Inventory &amp; Order Tracking</div><p>orders + review solicitations</p></div>
+          <div class="wire"><div class="tag">[REQUIRED]</div><div class="nm">Pricing</div><p>price data</p></div>
+          <div class="wire"><div class="tag">[REQUIRED]</div><div class="nm">Selling Partner Insights</div><p>account / marketplace info</p></div>
+          <div class="wire"><div class="tag opt">[OPTIONAL]</div><div class="nm">Brand Analytics</div><p>search query performance</p></div>
+        </div>
+        <p>Save. The app shows as <strong>Draft</strong> — that's fine; self-authorization works from draft.</p>
+      </div></div>
+      <div class="stp"><div class="no">03</div><div>
+        <div class="t">Copy your LWA credentials</div>
+        <p>App row → <strong>View</strong> under LWA credentials. Copy the <strong>Client ID</strong>
+        (<code>amzn1.application-oa2-client.…</code>) and <strong>Client Secret</strong>.</p>
+        <p class="note"><b>Security</b>These give API access to your store. Never commit them, never paste
+        them into websites or chats. Claude FBA keeps them in a gitignored local file only.</p>
+      </div></div>
+      <div class="stp"><div class="no">04</div><div>
+        <div class="t">Self-authorize → refresh token</div>
+        <p>App row → <strong>Authorize</strong> → confirm. Amazon shows a <strong>Refresh Token</strong>
+        starting with <code>Atzr|</code> — copy it immediately. This token lets the toolkit act as
+        <strong>you</strong>, on <strong>your</strong> store only. No third-party OAuth, because there
+        are no third parties.</p>
+      </div></div>
+      <div class="stp"><div class="no">05</div><div>
+        <div class="t">Wire it into Claude FBA</div>
+        <div class="cmd"><code>cp scripts/config.example.env scripts/config.env</code></div>
+        <p>Fill in the three values from steps 03–04: <code>LWA_CLIENT_ID</code>,
+        <code>LWA_CLIENT_SECRET</code>, <code>SP_REFRESH_TOKEN</code>.</p>
+      </div></div>
+      <div class="stp"><div class="no">06</div><div>
+        <div class="t">Prove it works</div>
+        <div class="cmd"><code>python3 scripts/sp_api.py</code></div>
+        <p>Exchanges your token and probes all three regions, printing every marketplace you sell in.
+        Copy its output into <code>config.env</code> (<code>SP_REGION</code>, <code>MARKETPLACE_ID</code>)
+        and you're done — every skill and script works from here.</p>
+      </div></div>
     </div>
   </div>
+</section>
 
-  <div class="step">
-    <div class="no"><b>02</b><s>Create app</s></div>
-    <div class="body">
-      <h2>Add a new app client</h2>
-      <ol>
-        <li>Develop Apps → <strong>Add new app client</strong></li>
-        <li>App name: anything (<code>claude-fba</code> works) · API type: <strong>SP-API</strong></li>
-        <li>Check the <strong>roles</strong> the toolkit uses:</li>
-      </ol>
-      <div class="roles">
-        <div><b>Product Listing</b><s>REQUIRED</s><br>read + patch listings, A+ read</div>
-        <div><b>Inventory &amp; Order Tracking</b><s>REQUIRED</s><br>orders + review solicitations</div>
-        <div><b>Pricing</b><s>REQUIRED</s><br>price data</div>
-        <div><b>Selling Partner Insights</b><s>REQUIRED</s><br>account/marketplace info</div>
-        <div><b>Brand Analytics</b><s>OPTIONAL</s><br>search query performance</div>
-      </div>
-      <p>Save. The app appears in your Develop Apps list in <strong>Draft</strong> — that's fine;
-      self-authorization works from draft.</p>
+<section class="blk" style="padding-top:0">
+  <div class="kicker">// 02 — IF SOMETHING BREAKS</div>
+  <div class="split">
+    <div>
+      <h2>Four failures. Four fixes.</h2>
+      <p class="lede">Every setup problem we've seen maps to one of these.</p>
+    </div>
+    <div class="board">
+      <div class="hd"><div>SYMPTOM</div><div>CAUSE &amp; FIX</div></div>
+      <div class="row"><div class="m">403 Unauthorized on one endpoint</div><div class="v">App is missing that role. Edit the app, check the role, and <strong>re-authorize</strong> — role changes need a fresh refresh token.</div></div>
+      <div class="row"><div class="m">invalid_grant on token exchange</div><div class="v">The refresh token was rotated (someone clicked Authorize again). Grab the newest token from the app row.</div></div>
+      <div class="row"><div class="m">Auth works, zero marketplaces</div><div class="v">App lacks the <strong>Selling Partner Insights</strong> role.</div></div>
+      <div class="row"><div class="m">Develop Apps not visible</div><div class="v">You need a Professional selling plan, and the Developer Profile from step 01 must be approved.</div></div>
     </div>
   </div>
-
-  <div class="step">
-    <div class="no"><b>03</b><s>LWA keys</s></div>
-    <div class="body">
-      <h2>Copy your LWA credentials</h2>
-      <p>In the app row click <strong>View</strong> under LWA credentials. Copy both values somewhere safe:</p>
-      <ul>
-        <li><strong>Client ID</strong> — looks like <code>amzn1.application-oa2-client.…</code></li>
-        <li><strong>Client Secret</strong> — long string. Treat it like a password.</li>
-      </ul>
-      <div class="callout"><b>Security</b>These credentials give API access to your store. Never commit them,
-      never paste them into websites or chats, never share screenshots of this screen. Claude FBA keeps them
-      in a gitignored local file only.</div>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="no"><b>04</b><s>Authorize</s></div>
-    <div class="body">
-      <h2>Self-authorize → refresh token</h2>
-      <p>Back in the Develop Apps list: your app row → <strong>Authorize</strong> → confirm. Amazon shows a
-      <strong>Refresh Token</strong> starting with <code>Atzr|</code>. Copy it immediately (you can regenerate
-      later, but a new token invalidates the old one).</p>
-      <p>This token is what lets the toolkit act as <strong>you</strong>, on <strong>your</strong> store only.
-      There's no OAuth dance with third parties because there are none.</p>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="no"><b>05</b><s>Configure</s></div>
-    <div class="body">
-      <h2>Wire it into Claude FBA</h2>
-      <div class="cmd"><code>cp scripts/config.example.env scripts/config.env</code></div>
-      <p>Open <code>scripts/config.env</code> and fill in the three values from steps 03–04:
-      <code>LWA_CLIENT_ID</code>, <code>LWA_CLIENT_SECRET</code>, <code>SP_REFRESH_TOKEN</code>.</p>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="no"><b>06</b><s>Verify</s></div>
-    <div class="body">
-      <h2>Prove it works</h2>
-      <div class="cmd"><code>python3 scripts/sp_api.py</code></div>
-      <p>This exchanges your token and probes all three SP-API regions, printing every marketplace your
-      account sells in. Copy the region and marketplace ID it reports into <code>config.env</code>
-      (<code>SP_REGION</code>, <code>MARKETPLACE_ID</code>) and you're done — every skill and script in
-      the toolkit works from here.</p>
-    </div>
-  </div>
-
-  <table class="trouble">
-    <tr><th>Symptom</th><th>Cause &amp; fix</th></tr>
-    <tr><td><code>403 Unauthorized</code> on one endpoint</td><td>App is missing that role. Edit the app in Develop Apps, check the role, and <strong>re-authorize</strong> — role changes require a fresh refresh token.</td></tr>
-    <tr><td><code>invalid_grant</code> on token exchange</td><td>The refresh token was rotated (e.g. someone clicked Authorize again). Grab the newest token from the app row.</td></tr>
-    <tr><td>Auth works, zero marketplaces</td><td>App lacks the <strong>Selling Partner Insights</strong> role.</td></tr>
-    <tr><td>Develop Apps not visible</td><td>You need a Professional selling plan, and the Developer Profile from step 01 must be approved.</td></tr>
-  </table>
-
-  <div class="done">
-    <div class="h">Keys in hand.</div>
-    <p>Clone the repo, drop the skills into <code>.claude/skills/</code>, open Claude Code and say
-    <strong>"audit my store"</strong>.</p>
-    <a class="btn" href="https://github.com/EbrahimElbagory/claude-fba">GET THE TOOLKIT →</a>
-  </div>
-</div>
+</section>
 
 <footer><div class="in">
-  <span>BY <a href="https://x.com/ebrahimelb">EBRAHIM ELBAGORY</a> · <a href="./">CLAUDE_FBA</a></span>
-  <span>MIT // 2026</span>
+  <div class="kicker">[KEYS IN HAND]</div>
+  <div class="pitch-row">
+    <div>
+      <div class="pitch">Clone it. Connect your store. Say <span>"audit my store."</span></div>
+      <div class="f-btns">
+        <a class="f-btn solid" href="https://github.com/EbrahimElbagory/claude-fba">GET THE TOOLKIT →</a>
+        <a class="f-btn line" href="./">BACK TO THE EXPERIMENT →</a>
+      </div>
+    </div>
+    <div class="f-links">
+      <a href="https://github.com/EbrahimElbagory/claude-fba">GITHUB</a>
+      <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/docs/SETUP.md">SETUP.MD</a>
+      <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/docs/SAFETY.md">SAFETY</a>
+      <a href="https://x.com/ebrahimelb">X / TWITTER</a>
+    </div>
+  </div>
+  <div class="credits">
+    <span>BY EBRAHIM ELBAGORY — AMAZON SELLER, BUILDER. SHIPS ON HIS OWN STORE FIRST.</span>
+    <span>CLAUDE FBA V0.1 // MIT // 2026</span>
+  </div>
 </div></footer>
 
 </body>
