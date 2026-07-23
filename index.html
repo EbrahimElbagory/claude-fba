@@ -284,7 +284,7 @@ footer .in{max-width:1180px; margin:0 auto}
     <div class="h3">Get the <span>Day-30 report.</span></div>
     <p>One email when the scoreboard column fills in. Maybe two if something breaks. That's it.</p>
   </div>
-  <form class="sub-form" action="https://buttondown.com/api/emails/embed-subscribe/claude-fba" method="post" target="_blank">
+  <form class="sub-form" id="subform" action="https://buttondown.com/api/emails/embed-subscribe/claude-fba" method="post">
     <input type="email" name="email" placeholder="you@yourstore.com" required>
     <button type="submit">SUBSCRIBE</button>
   </form>
@@ -460,6 +460,15 @@ document.getElementById('copy').addEventListener('click', async () => {
 // duplicate ticker content for seamless loop
 const run = document.getElementById('tickrun');
 run.innerHTML += run.innerHTML;
+// subscribe form: submit in background, no redirect
+document.getElementById('subform').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const form = e.target, btn = form.querySelector('button');
+  fetch(form.action, { method: 'POST', body: new FormData(form), mode: 'no-cors' });
+  btn.textContent = "YOU'RE IN";
+  btn.disabled = true;
+  form.querySelector('input').value = '';
+});
 </script>
 </body>
 </html>
