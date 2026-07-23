@@ -6,7 +6,7 @@
 <title>Claude FBA — I gave Claude the keys to my Amazon store</title>
 <meta name="description" content="Free, open-source Amazon seller toolkit for Claude Code: store audits, review automation, safe listing edits, keyword research, impact tracking — via SP-API + Helium 10 MCP.">
 <meta property="og:title" content="Claude FBA — I gave Claude the keys to my Amazon store">
-<meta property="og:description" content="437 review requests sent day one. 4 broken listings patched. The next 30 days get published, win or lose. Open source, MIT.">
+<meta property="og:description" content="Claude runs my Amazon store's ops — 455 review requests on autopilot, listings patched via API, $130K sold. Today it's open source, MIT.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -68,10 +68,10 @@ h1 span{color:var(--accent)}
 
 /* stat strip */
 .stats-strip{border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
-.stats-strip .in{max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(5,1fr)}
+.stats-strip .in{max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(6,1fr)}
 @media (max-width:880px){ .stats-strip .in{grid-template-columns:repeat(2,1fr)} }
 .stat{padding:26px 24px; border-right:1px solid var(--line)}
-.stat .n{font-family:'Archivo',sans-serif; font-size:40px; font-weight:800; line-height:1}
+.stat .n{font-family:'Archivo',sans-serif; font-size:52px; font-weight:800; line-height:1; letter-spacing:-.01em}
 .stat .n.o{color:var(--accent)}
 .stat .l{font-size:10px; font-weight:600; letter-spacing:.14em; color:var(--dim); margin-top:10px}
 
@@ -103,6 +103,7 @@ section.blk{padding:84px 32px; max-width:1180px; margin:0 auto}
 .board .row .st.ok{color:var(--green)}
 .board .hd div:nth-child(n+2){text-align:right}
 .board .ft{font-size:10px; letter-spacing:.08em; color:var(--dim); padding:13px 20px}
+.board.spec .hd, .board.spec .row{grid-template-columns:1.3fr .9fr 1.2fr}
 
 /* signup band */
 .signup{border-top:1px solid var(--line); background:var(--panel)}
@@ -184,7 +185,7 @@ footer .in{max-width:1180px; margin:0 auto}
   <a href="#" class="logo">CLAUDE<span>_</span>FBA</a>
   <nav>
     <a href="#scoreboard">SCOREBOARD</a>
-    <a href="#log">DAY_ONE</a>
+    <a href="#log">OPS_LOG</a>
     <a href="#skills">SKILLS</a>
     <a href="#safety">SAFETY</a>
     <a href="#faq">FAQ</a>
@@ -204,10 +205,11 @@ footer .in{max-width:1180px; margin:0 auto}
   <div class="ver">V0.1 // FREE // OPEN SOURCE // MIT // 0 PIP INSTALLS</div>
   <h1>I gave Claude the keys to <span>my Amazon store.</span></h1>
   <div class="hero-grid">
-    <p>Claude FBA is a free, open-source seller toolkit for <strong>Claude Code</strong> — five skills
-    wired into one audit → fix → measure loop. Day one on my real store:
-    <strong>437 review requests sent, 4 broken listings patched.</strong> The next 30 days get
-    published here, win or lose.</p>
+    <p>This isn't a demo. <strong>Claude Code</strong> has been running this store's ops for a
+    while now — audits, listing edits, review requests, tracking — through the same APIs Amazon
+    gives every seller. <strong>$130K sold, a quarter-million dollars of stock under
+    management.</strong> 455 review requests on autopilot, 4 broken listings found and patched. Today I'm open-sourcing the whole setup, and publishing the next
+    30 days of numbers here, win or lose.</p>
     <div class="install-col">
       <div class="install">
         <span class="d">$</span>
@@ -220,16 +222,19 @@ footer .in{max-width:1180px; margin:0 auto}
 </section>
 
 <div class="stats-strip"><div class="in">
-  <div class="stat"><div class="n">437</div><div class="l">REVIEW REQUESTS — DAY ONE</div></div>
-  <div class="stat"><div class="n">4</div><div class="l">LISTINGS PATCHED VIA API</div></div>
-  <div class="stat"><div class="n">19</div><div class="l">ASINS AUDITED IN ONE SESSION</div></div>
-  <div class="stat"><div class="n">5</div><div class="l">SKILLS · 0 PIP INSTALLS</div></div>
+  <div class="stat"><div class="n o">$130K</div><div class="l">SOLD — TRAILING 12 MONTHS</div></div>
+  <div class="stat"><div class="n o">$250K</div><div class="l">STOCK UNDER MANAGEMENT — AT LIST</div></div>
+  <div class="stat"><div class="n">455</div><div class="l">REVIEW REQUESTS — ON AUTOPILOT</div></div>
+  <div class="stat"><div class="n">80K</div><div class="l">SESSIONS ANALYZED</div></div>
+  <div class="stat"><div class="n">28</div><div class="l">PRODUCTS CONNECTED</div></div>
   <div class="stat"><div class="n o">$0</div><div class="l">FOREVER. MIT LICENSED.</div></div>
 </div></div>
 
 <div class="ticker" aria-hidden="true"><div class="run" id="tickrun">
-  <span>437 REVIEW REQUESTS SENT — DAY ONE <i>//</i></span>
+  <span>455 REVIEW REQUESTS SENT — ON AUTOPILOT <i>//</i></span>
   <span>4 LISTINGS PATCHED VIA API <i>//</i></span>
+  <span>80,803 SESSIONS ANALYZED <i>//</i></span>
+  <span>28 PRODUCTS WIRED IN · $250K STOCK AT LIST <i>//</i></span>
   <span>WRONG-PRODUCT BULLETS FOUND ON ASIN #4 <i>//</i></span>
   <span>BACKEND KEYWORDS: EMPTY → FILLED <i>//</i></span>
   <span>BASELINE CAPTURED — MEASURE, DON'T GUESS <i>//</i></span>
@@ -242,8 +247,8 @@ footer .in{max-width:1180px; margin:0 auto}
   <div class="split">
     <div>
       <h2>The public scoreboard.</h2>
-      <p class="lede">Baseline captured 2026-07-22 — before touching anything. The Day-30 column fills
-      in public as weekly numbers land. No projections, no cherry-picking.</p>
+      <p class="lede">Every change ships against a baseline. Current cycle's was captured 2026-07-22;
+      the Day-30 column fills in public as weekly numbers land. No projections, no cherry-picking.</p>
       <a class="btn-o" href="https://x.com/ebrahimelb">FOLLOW THE NUMBERS ON X →</a>
     </div>
     <div class="board">
@@ -269,14 +274,39 @@ footer .in{max-width:1180px; margin:0 auto}
   </form>
 </div></div>
 
-<section id="log" class="dark-band"><div class="in">
-  <div class="kicker">// 02 — THE EVIDENCE</div>
+<section id="specs" class="blk">
+  <div class="kicker">// 02 — THE PATIENT</div>
   <div class="split">
     <div>
-      <h2>Day one. Logged.</h2>
-      <p class="lede">One session, 2026-07-22, my own store. Every number below came straight out of an
-      API response — verbatim, nothing is a projection. Damage found and fixed in an afternoon:
-      an estimated <strong>$3.5–9K/yr</strong> in process leaks.</p>
+      <h2>The store, anonymized.</h2>
+      <p class="lede">Which store? Doesn't matter — the numbers do. Every figure below is pulled
+      straight from the seller APIs. Identity withheld so the experiment stays clean; specs published
+      so you can judge whether this scale means anything to yours.</p>
+    </div>
+    <div class="board spec">
+      <div class="hd"><div>SPEC</div><div>VALUE</div><div>NOTE</div></div>
+      <div class="row"><div class="m">Category</div><div class="v">Self-defense</div><div class="st">US MARKETPLACE · FBA</div></div>
+      <div class="row"><div class="m">Gross sales</div><div class="v">$130,195</div><div class="st">TRAILING 12 MONTHS</div></div>
+      <div class="row"><div class="m">Units sold</div><div class="v">6,454</div><div class="st">AOV ~$21 · 7.7% CVR</div></div>
+      <div class="row"><div class="m">Take-home before COGS</div><div class="v">47.9%</div><div class="st">~19% NET MARGIN</div></div>
+      <div class="row"><div class="m">Inventory on hand</div><div class="v">$250K at list</div><div class="st">7,005 UNITS · $132K AT TODAY'S PRICES · $95K AT COST</div></div>
+      <div class="row"><div class="m">Traffic analyzed</div><div class="v">80,803 sessions</div><div class="st">115K PAGE VIEWS</div></div>
+      <div class="row"><div class="m">Products connected</div><div class="v">28</div><div class="st">19 DEEP-AUDITED EVERY CYCLE</div></div>
+      <div class="row"><div class="m">Ads, pre-cleanup</div><div class="v o">40% ACOS</div><div class="st">47/63 TARGETS ZERO SALES → AD-MANAGER (COMING SOON)</div></div>
+      <div class="ft">REAL STORE. REAL MONEY. IDENTITY WITHHELD — NUMBERS AREN'T.</div>
+    </div>
+  </div>
+</section>
+
+<section id="log" class="dark-band"><div class="in">
+  <div class="kicker">// 03 — THE EVIDENCE</div>
+  <div class="split">
+    <div>
+      <h2>The ops log.</h2>
+      <p class="lede">One real session from the log — 2026-07-22, my own store. This is what a
+      routine audit-and-fix cycle looks like when the operator is an agent with API access.
+      Every number came straight out of an API response, nothing is a projection. Caught that
+      session: an estimated <strong>$3.5–9K/yr</strong> in process leaks.</p>
     </div>
     <div class="term">
       <div class="bar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i><span class="t">CLAUDE-FBA — SESSION 2026-07-22 — VERBATIM</span></div>
@@ -296,7 +326,7 @@ footer .in{max-width:1180px; margin:0 auto}
 </div></section>
 
 <section class="blk">
-  <div class="kicker">// 03 — THE WIRING</div>
+  <div class="kicker">// 04 — THE WIRING</div>
   <h2>Two data planes. One brain. A cron.</h2>
   <p style="font-size:15px; max-width:68ch; margin:0 0 36px; color:var(--body)">The market layer runs on
   Helium 10's official MCP (paid plan). The store layer runs on a free self-authorized SP-API app you
@@ -309,7 +339,7 @@ footer .in{max-width:1180px; margin:0 auto}
 </section>
 
 <section id="skills" class="blk" style="padding-top:24px">
-  <div class="kicker">// 04 — THE CONTENTS</div>
+  <div class="kicker">// 05 — THE CONTENTS</div>
   <h2 style="margin-bottom:36px">Five skills. One loop. A sixth on the bench.</h2>
   <div class="grid3">
     <a class="skill" href="https://github.com/EbrahimElbagory/claude-fba/blob/main/skills/store-audit/SKILL.md">
@@ -342,16 +372,11 @@ footer .in{max-width:1180px; margin:0 auto}
       <div class="nm">Ad-Manager</div>
       <p>The ads loop: pulls every campaign, finds search terms burning money with zero sales, flags winners stuck in broad match, and drafts bid, budget, and negative-keyword changes — nothing spends a cent until you approve it. In testing on my store now.</p>
       <div class="cta" style="color:var(--accent)">SHIPS AFTER LIVE TESTING →</div></div>
-    <a class="skill" href="https://github.com/EbrahimElbagory/claude-fba/tree/main/scripts">
-      <div class="meta"><b>SCRIPTS</b><span>[PLUMBING]</span></div>
-      <div class="nm">scripts/</div>
-      <p>The plumbing: four plain-Python files, zero installs. A small client that talks to Amazon's API with just your keys, plus runnable scripts for review requests, weekly tracking, and Ads login. Works without Claude too.</p>
-      <div class="cta">BROWSE →</div></a>
   </div>
 </section>
 
 <section id="safety" class="blk" style="padding-top:0">
-  <div class="kicker">// 05 — HANDLING INSTRUCTIONS</div>
+  <div class="kicker">// 06 — HANDLING INSTRUCTIONS</div>
   <div class="split">
     <div>
       <h2>The safety model <span style="color:var(--accent)">is</span> the feature.</h2>
@@ -369,7 +394,7 @@ footer .in{max-width:1180px; margin:0 auto}
 </section>
 
 <section id="faq" class="blk" style="padding-top:0; padding-bottom:92px">
-  <div class="kicker">// 06 — DECLARATIONS</div>
+  <div class="kicker">// 07 — DECLARATIONS</div>
   <h2 style="margin-bottom:32px">Questions sellers actually ask.</h2>
   <div class="faq">
     <details><summary><span>Is this against Amazon's terms of service?</span><span class="pm"></span></summary><p>No. It's your own store accessed through your own self-authorized SP-API app — the same official interface every seller tool uses. Review requests go through Amazon's Solicitations API, functionally identical to the "Request a Review" button in Seller Central. Nothing is scraped.</p></details>
