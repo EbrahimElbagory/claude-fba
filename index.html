@@ -179,20 +179,6 @@ h2{font-size:clamp(34px,5vw,58px); line-height:.94; color:var(--ink); margin-bot
 .follow a.x:hover{border-color:var(--orange); color:var(--orange)}
 .follow a.x svg{width:13px; height:13px; fill:currentColor}
 
-/* terminal */
-.term{border:2px solid var(--line); background:#0b0b0b; max-width:880px}
-.term-head{display:flex; gap:7px; padding:13px 18px; border-bottom:1px solid var(--line-soft); align-items:center}
-.term-head i{width:9px; height:9px; border-radius:50%; background:var(--line)}
-.term-head span{margin-left:auto; font-size:10px; letter-spacing:.18em; color:var(--dim)}
-.term-body{padding:26px 28px 30px; font-size:13px; line-height:2.05; overflow-x:auto}
-.term-body .u{color:var(--ink)} .term-body .u::before{content:"> "; color:var(--orange)}
-.term-body .c{color:var(--dim)}
-.term-body .hit{color:var(--orange)}
-.term-body .bad{color:#e0574f}
-.term-body .ok{color:var(--ok)}
-.tline{opacity:0}
-.tline.on{opacity:1; transition:opacity .35s}
-
 /* arch */
 pre.arch{border:2px solid var(--line); background:var(--plate); max-width:880px; padding:34px; font-size:12.5px; line-height:1.95; color:var(--gray); overflow-x:auto}
 pre.arch b{color:var(--ink); font-weight:600}
@@ -249,7 +235,7 @@ footer nav a{color:var(--dim)} footer nav a:hover{color:var(--orange)}
 /* reveal */
 .rv{opacity:0; transform:translateY(14px); transition:opacity .7s ease, transform .7s ease}
 .rv.on{opacity:1; transform:none}
-@media (prefers-reduced-motion:reduce){ .rv,.tline{opacity:1!important; transform:none!important; transition:none} .ticker-inner{animation:none} }
+@media (prefers-reduced-motion:reduce){ .rv{opacity:1!important; transform:none!important; transition:none} .ticker-inner{animation:none} }
 @media (max-width:720px){ nav.links{display:none} .lab-main{padding:44px 26px} }
 </style>
 </head>
@@ -258,7 +244,7 @@ footer nav a{color:var(--dim)} footer nav a:hover{color:var(--orange)}
 <header class="nav"><div class="wrap">
   <a class="logo" href="#"><span class="disp">CLAUDE<b>FBA</b></span><small>SELLER OPS</small></a>
   <nav class="links">
-    <a href="#manifest">MANIFEST</a><a href="#results">RESULTS</a><a href="#demo">DEMO</a>
+    <a href="#manifest">MANIFEST</a><a href="#results">RESULTS</a>
     <a href="#skills">SKILLS</a><a href="#faq">FAQ</a><a href="setup.html">API KEYS</a>
   </nav>
   <a class="gh-top" href="https://github.com/EbrahimElbagory/claude-fba">GITHUB ↗</a>
@@ -351,33 +337,11 @@ footer nav a{color:var(--dim)} footer nav a:hover{color:var(--orange)}
   </div>
 </div></section>
 
-<hr class="perf">
-
-<section id="demo"><div class="wrap">
-  <div class="field-tag rv"><i></i><span>Field 02 — Live session</span></div>
-  <h2 class="disp rv">One prompt. Whole store.</h2>
-  <p class="lede rv">This is the actual shape of the session that produced the log above.</p>
-  <div class="term rv">
-    <div class="term-head"><i style="background:#e0574f"></i><i style="background:#e2a53a"></i><i style="background:#79c98b"></i><span>claude — ~/claude-fba</span></div>
-    <div class="term-body" id="termbody">
-      <div class="tline u">audit my store</div>
-      <div class="tline c">Checking Helium 10 quota… 975/1000 calls left. Pulling catalog from SP-API…</div>
-      <div class="tline c">Scoring 11 listings in one LQS call · keyword coverage per family · BSR history…</div>
-      <div class="tline hit">⚠ ASIN #4: bullets describe a DIFFERENT product (accessory copy on the main listing)</div>
-      <div class="tline hit">⚠ Backend search terms EMPTY on 4 of 4 audited listings — free indexation unused</div>
-      <div class="tline bad">✗ 437 orders eligible for review requests. Zero ever sent.</div>
-      <div class="tline u">fix everything you can via api</div>
-      <div class="tline c">Drafted 2 titles + 4 backend keyword sets → waiting for your approval…</div>
-      <div class="tline ok">✓ 4 listings patched (backups saved) · 437 review requests sent · daily cron installed</div>
-      <div class="tline ok">✓ Baseline captured — next week we measure, not guess.</div>
-    </div>
-  </div>
-</div></section>
 
 <hr class="perf">
 
 <section id="how"><div class="wrap">
-  <div class="field-tag rv"><i></i><span>Field 03 — Routing</span></div>
+  <div class="field-tag rv"><i></i><span>Field 02 — Routing</span></div>
   <h2 class="disp rv">Two data planes. One brain. A cron.</h2>
   <p class="lede rv">The market layer needs a paid Helium 10 plan (their official MCP). The store layer runs on a free
   self-authorized SP-API app you create once in ~30 minutes. <a href="setup.html" style="color:var(--orange)">SETUP GUIDE →</a></p>
@@ -392,7 +356,7 @@ footer nav a{color:var(--dim)} footer nav a:hover{color:var(--orange)}
 <hr class="perf">
 
 <section id="skills"><div class="wrap">
-  <div class="field-tag rv"><i></i><span>Field 04 — Contents (5)</span></div>
+  <div class="field-tag rv"><i></i><span>Field 03 — Contents (5)</span></div>
   <h2 class="disp rv">Five skills. One loop.</h2>
   <p class="lede rv">Each one is a SKILL.md you drop into .claude/skills/ — carrying the hard-won gotchas, not just the happy path.</p>
   <div class="cards">
@@ -421,7 +385,7 @@ footer nav a{color:var(--dim)} footer nav a:hover{color:var(--orange)}
 <hr class="perf">
 
 <section id="manifest"><div class="wrap">
-  <div class="field-tag rv"><i></i><span>Field 05 — Handling instructions</span></div>
+  <div class="field-tag rv"><i></i><span>Field 04 — Handling instructions</span></div>
   <h2 class="disp rv">The safety model is the feature.</h2>
   <p class="lede rv">Letting an agent touch a revenue-producing store only works with hard rules. Declared contents:</p>
   <div class="manifest rv">
@@ -437,7 +401,7 @@ footer nav a{color:var(--dim)} footer nav a:hover{color:var(--orange)}
 <hr class="perf">
 
 <section id="faq"><div class="wrap">
-  <div class="field-tag rv"><i></i><span>Field 06 — Declarations</span></div>
+  <div class="field-tag rv"><i></i><span>Field 05 — Declarations</span></div>
   <h2 class="disp rv" style="margin-bottom:44px">Questions sellers actually ask.</h2>
   <div class="faq rv">
     <details><summary>Is this against Amazon's terms of service?</summary><p>No. It's your own store accessed through your own self-authorized SP-API app — the same official interface every seller tool uses. Review requests go through Amazon's Solicitations API, functionally identical to the "Request a Review" button in Seller Central. Nothing is scraped.</p></details>
@@ -474,11 +438,7 @@ const io = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
 }), {threshold:.12});
 document.querySelectorAll('.rv').forEach(el => io.observe(el));
-const tio = new IntersectionObserver(es => es.forEach(e => {
-  if (!e.isIntersecting) return; tio.disconnect();
-  document.querySelectorAll('.tline').forEach((l,i)=>setTimeout(()=>l.classList.add('on'), 400+i*600));
-}), {threshold:.3});
-tio.observe(document.getElementById('termbody'));
+
 </script>
 </body>
 </html>
