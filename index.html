@@ -282,13 +282,10 @@ footer .in{max-width:1180px; margin:0 auto}
 
 <div class="signup"><div class="in">
   <div>
-    <div class="h3">Waitlist for <span>what's next.</span></div>
-    <p>This experiment is v0. Drop your email and you're first in line for whatever it becomes. No confirmation dance, no newsletter.</p>
+    <div class="h3">Watch it <span>play out live.</span></div>
+    <p>Every weekly number from the 30-day run gets posted on X — wins and losses. That's where updates live.</p>
   </div>
-  <form class="sub-form" id="subform">
-    <input type="email" name="email" placeholder="you@yourstore.com" required>
-    <button type="submit">JOIN WAITLIST</button>
-  </form>
+  <a class="gh-btn" style="padding:14px 22px; font-size:12px" href="https://x.com/ebrahimelb">FOLLOW ON X →</a>
 </div></div>
 
 <section id="specs" class="blk">
@@ -302,7 +299,6 @@ footer .in{max-width:1180px; margin:0 auto}
     </div>
     <div class="board spec">
       <div class="hd"><div>SPEC</div><div>VALUE</div><div>NOTE</div></div>
-      <div class="row"><div class="m">Marketplace</div><div class="v">Amazon US</div><div class="st">FBA · CATEGORY WITHHELD</div></div>
       <div class="row"><div class="m">Gross sales</div><div class="v">$130,195</div><div class="st">TRAILING 12 MONTHS</div></div>
       <div class="row"><div class="m">Units sold</div><div class="v">6,454</div><div class="st">AOV ~$21 · 7.7% CVR</div></div>
       <div class="row"><div class="m">Take-home before COGS</div><div class="v">47.9%</div><div class="st">~19% NET MARGIN</div></div>
@@ -460,22 +456,6 @@ document.getElementById('copy').addEventListener('click', async () => {
 // duplicate ticker content for seamless loop
 const run = document.getElementById('tickrun');
 run.innerHTML += run.innerHTML;
-// waitlist form: background POST, inline confirmation, no redirect
-document.getElementById('subform').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const form = e.target, btn = form.querySelector('button'), input = form.querySelector('input');
-  btn.textContent = '...';
-  try {
-    await fetch('https://waitlist-production-0db2.up.railway.app/waitlist', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: input.value }),
-    });
-  } catch {}
-  btn.textContent = "YOU'RE IN";
-  btn.disabled = true;
-  input.disabled = true;
-});
 </script>
 </body>
 </html>
