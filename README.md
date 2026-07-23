@@ -62,9 +62,9 @@ and verified after, all through official APIs. Full model: [docs/SAFETY.md](docs
 SP-API app, and Amazon's official endpoints — including the same review-request
 mechanism as the Seller Central button. Nothing is scraped.
 
-**Do I need Helium 10?** For keyword/rank/market data, yes (paid plan; their MCP
-is official). Everything SP-API-side — review automation, listing edits, impact
-tracking, sales analytics — works without it.
+**Do I need Helium 10?** Only for the keyword side (volumes, ranks, competitor
+data — their official MCP, paid plan). Everything else runs on the free SP-API
+app alone: review automation, listing edits, impact tracking, sales analytics.
 
 **What does it cost to run?** Claude Code subscription + optionally Helium 10.
 The scripts themselves are free, stdlib-only, and run on a laptop.
