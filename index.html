@@ -127,11 +127,8 @@ section.blk{padding:84px 32px; max-width:1180px; margin:0 auto}
 .signup .h3{font-family:'Archivo',sans-serif; font-size:22px; font-weight:800; text-transform:uppercase; letter-spacing:-.005em; margin-bottom:6px}
 .signup .h3 span{color:var(--accent)}
 .signup p{font-size:12px; color:var(--dim); margin:0}
-.sub-form{display:flex; align-items:stretch; border:1px solid var(--line2); background:var(--bg); min-width:min(420px,100%)}
-.sub-form input{flex:1; border:none; background:transparent; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--ink); padding:14px 16px; outline:none; min-width:0}
-.sub-form input::placeholder{color:var(--faint)}
-.sub-form button{font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.12em; border:none; border-left:1px solid var(--line2); background:var(--accent); color:var(--bg); padding:0 20px; cursor:pointer}
-.sub-form button:hover{background:var(--ink)}
+.sub-cta{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.12em; background:var(--accent); color:var(--bg); border:1px solid var(--accent); padding:14px 22px; text-decoration:none}
+.sub-cta:hover{background:var(--ink); border-color:var(--ink)}
 
 /* log terminal */
 .dark-band{border-top:1px solid var(--line); background:var(--bg2); padding:84px 32px}
@@ -281,13 +278,10 @@ footer .in{max-width:1180px; margin:0 auto}
 
 <div class="signup"><div class="in">
   <div>
-    <div class="h3">Get the <span>Day-30 report.</span></div>
-    <p>One email when the scoreboard column fills in. Maybe two if something breaks. That's it.</p>
+    <div class="h3">Follow the <span>Day-30 report.</span></div>
+    <p>The scoreboard fills in live on X. Day 30, the full numbers drop there first.</p>
   </div>
-  <form class="sub-form" id="subform" action="https://buttondown.com/api/emails/embed-subscribe/claude-fba" method="post">
-    <input type="email" name="email" placeholder="you@yourstore.com" required>
-    <button type="submit">SUBSCRIBE</button>
-  </form>
+  <a class="sub-cta" href="https://x.com/ebrahimelb">FOLLOW @EBRAHIMELB ON X →</a>
 </div></div>
 
 <section id="specs" class="blk">
@@ -437,7 +431,6 @@ footer .in{max-width:1180px; margin:0 auto}
       <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/docs/SETUP.md">SETUP</a>
       <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/docs/SAFETY.md">SAFETY</a>
       <a href="https://x.com/ebrahimelb">X / TWITTER</a>
-      <a href="https://buttondown.com/claude-fba">EMAIL UPDATES</a>
     </div>
   </div>
   <div class="credits">
@@ -460,15 +453,6 @@ document.getElementById('copy').addEventListener('click', async () => {
 // duplicate ticker content for seamless loop
 const run = document.getElementById('tickrun');
 run.innerHTML += run.innerHTML;
-// subscribe form: submit in background, no redirect
-document.getElementById('subform').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const form = e.target, btn = form.querySelector('button');
-  fetch(form.action, { method: 'POST', body: new FormData(form), mode: 'no-cors' });
-  btn.textContent = "YOU'RE IN";
-  btn.disabled = true;
-  form.querySelector('input').value = '';
-});
 </script>
 </body>
 </html>
