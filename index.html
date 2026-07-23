@@ -104,6 +104,18 @@ section.blk{padding:84px 32px; max-width:1180px; margin:0 auto}
 .board .hd div:nth-child(n+2){text-align:right}
 .board .ft{font-size:10px; letter-spacing:.08em; color:var(--dim); padding:13px 20px}
 
+/* signup band */
+.signup{border-top:1px solid var(--line); background:var(--panel)}
+.signup .in{max-width:1180px; margin:0 auto; padding:34px 32px; display:flex; align-items:center; justify-content:space-between; gap:32px; flex-wrap:wrap}
+.signup .h3{font-family:'Archivo',sans-serif; font-size:22px; font-weight:800; text-transform:uppercase; letter-spacing:-.005em; margin-bottom:6px}
+.signup .h3 span{color:var(--accent)}
+.signup p{font-size:12px; color:var(--dim); margin:0}
+.sub-form{display:flex; align-items:stretch; border:1px solid var(--line2); background:var(--bg); min-width:min(420px,100%)}
+.sub-form input{flex:1; border:none; background:transparent; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--ink); padding:14px 16px; outline:none; min-width:0}
+.sub-form input::placeholder{color:var(--faint)}
+.sub-form button{font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.12em; border:none; border-left:1px solid var(--line2); background:var(--accent); color:var(--bg); padding:0 20px; cursor:pointer}
+.sub-form button:hover{background:var(--ink)}
+
 /* log terminal */
 .dark-band{border-top:1px solid var(--line); background:var(--bg2); padding:84px 32px}
 .dark-band .in{max-width:1180px; margin:0 auto}
@@ -246,6 +258,17 @@ footer .in{max-width:1180px; margin:0 auto}
   </div>
 </section>
 
+<div class="signup"><div class="in">
+  <div>
+    <div class="h3">Get the <span>Day-30 report.</span></div>
+    <p>One email when the scoreboard column fills in. Maybe two if something breaks. That's it.</p>
+  </div>
+  <form class="sub-form" action="https://buttondown.com/api/emails/embed-subscribe/claudefba" method="post" target="_blank">
+    <input type="email" name="email" placeholder="you@yourstore.com" required>
+    <button type="submit">SUBSCRIBE</button>
+  </form>
+</div></div>
+
 <section id="log" class="dark-band"><div class="in">
   <div class="kicker">// 02 — THE EVIDENCE</div>
   <div class="split">
@@ -368,6 +391,7 @@ footer .in{max-width:1180px; margin:0 auto}
       <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/docs/SETUP.md">SETUP</a>
       <a href="https://github.com/EbrahimElbagory/claude-fba/blob/main/docs/SAFETY.md">SAFETY</a>
       <a href="https://x.com/ebrahimelb">X / TWITTER</a>
+      <a href="https://buttondown.com/claudefba">EMAIL UPDATES</a>
     </div>
   </div>
   <div class="credits">
